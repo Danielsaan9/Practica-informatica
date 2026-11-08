@@ -1,1 +1,0 @@
-No subir a Git: `*.sql`, `config/`, `config_stage/`, `files/`, `config_db.php`, `glpicrypt.key`, `.env`, tokens, logs, sesiones y copias de seguridad. Mantener los avisos de licencia y copyright originales de GLPI, plugins y dependencias.
