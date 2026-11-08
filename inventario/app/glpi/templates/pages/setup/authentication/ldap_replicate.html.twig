@@ -1,0 +1,38 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+
+<form action="{{ target }}" method="post">
+    <div class="d-flex">
+        {{ fields.textField('name', '', __('Name'), {
+            field_class: 'col-3',
+            label_class: 'col-4',
+            input_class: 'col-8',
+        }) }}
+        {{ fields.textField('host', '', __('Server'), {
+            field_class: 'col-3',
+            label_class: 'col-4',
+            input_class: 'col-8',
+        }) }}
+        {{ fields.numberField('port', 389, _n('Port', 'Ports', 1), {
+            min: 1,
+            max: 65535,
+            field_class: 'col-3',
+            label_class: 'col-4',
+            input_class: 'col-8',
+        }) }}
+        {{ fields.dropdownNumberField('timeout', 10, __('Timeout'), {
+            min: 1,
+            max: 30,
+            toadd: {
+                0: __('No timeout')
+            },
+            field_class: 'col-3',
+            label_class: 'col-4',
+            input_class: 'col-8',
+        }) }}
+    </div>
+    <div class="d-flex flex-row-reverse">
+        <input type="hidden" name="authldaps_id" value="{{ authldaps_id }}">
+        {{ inputs.submit('add_replicate', _x('button', 'Add'), 'btn-primary', {icon: 'ti ti-plus'}) }}
+    </div>
+</form>

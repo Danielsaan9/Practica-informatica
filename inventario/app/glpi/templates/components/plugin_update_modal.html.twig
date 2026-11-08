@@ -1,0 +1,33 @@
+<!-- Button trigger modal -->
+{{ open_btn|raw }}
+
+<!-- Modal -->
+<div class="modal fade" id="{{ modal_id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+            <div class="modal-status bg-info"></div>
+            <div
+                class="modal-body text-center py-4">
+                <i class="fa-2x ti ti-info-circle mb-2 text-info" aria-hidden="true"></i>
+                <h3>{{ _x('button', 'Update?') }}</h3>
+                <div class="text-muted">{{ __('A new update is available for the %s plugin.')|escape|format('<strong>' ~ plugin_name|escape ~ '</strong>')|raw }}</div>
+                <div class="text-muted">{{ __('Update to version %s?')|escape|format('<strong><code>' ~ to_version|escape ~ '</strong></code>')|raw }}</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn w-100" data-bs-dismiss="modal">
+                                {{ __('Cancel') }}
+                            </a>
+                        </div>
+                        <div class="col">
+                            {{ update_btn|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

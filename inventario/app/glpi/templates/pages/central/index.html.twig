@@ -1,0 +1,8 @@
+{% extends "layout/page_skeleton.html.twig" %}
+
+{% set title = central.getTypeName(1) %}
+{% set menu = ['central', 'central'] %}
+
+{% block content %}
+    {% do central.display() %}
+{% endblock content %}

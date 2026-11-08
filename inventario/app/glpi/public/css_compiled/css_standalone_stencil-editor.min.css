@@ -1,0 +1,33 @@
+.cropper-container {
+  position: relative;
+}
+.cropper-container cropper-canvas {
+  min-height: 100px;
+}
+
+.defined-zone {
+  background: rgba(226, 255, 209, 0.6039215686);
+  border: 1px solid #6c9654;
+  box-sizing: border-box;
+  position: absolute;
+  direction: inherit;
+  font-size: 13px;
+  line-height: 23px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.stencil-view {
+  position: relative;
+}
+.stencil-view .defined-zone {
+  background: rgba(194, 194, 194, 0.3098039216);
+  border: #8d8d8d;
+}
+.stencil-view .defined-zone .zone-number {
+  color: white;
+  mix-blend-mode: difference;
+  font-size: 15px;
+  font-weight: normal;
+}

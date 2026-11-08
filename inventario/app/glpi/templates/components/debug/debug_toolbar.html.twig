@@ -1,0 +1,16 @@
+<div id="debug-toolbar-applet"></div>
+
+<script type="module">
+    const debug_toolbar_applet = window.Vue.createApp(window.Vue.components['Debug/Toolbar'].component, {
+        initial_request: {{ debug_info|json_encode|raw }}
+    });
+    // Add WidgetButton component which was build with webpack
+    debug_toolbar_applet.component('widget-button', window.Vue.components['Debug/WidgetButton'].component);
+    const widget_components = window.Vue.getComponentsByName(/^Debug\/Widget\//);
+    for (const widget_name in widget_components) {
+        // DebugWidgetServerPerformance => widget-server-performance, DebugWidgetSQLRequests => widget-sqlrequests
+        const registered_name = widget_name.replace(/Debug\/Widget\//g, 'widget').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        debug_toolbar_applet.component(registered_name, widget_components[widget_name].component);
+    }
+    debug_toolbar_applet.mount('#debug-toolbar-applet');
+</script>

@@ -1,0 +1,46 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<section class="container-narrow" aria-labelledby="add-tile-header">
+    <form>
+        {{ fields.dropdownArrayField(
+            '_itemtype_tile',
+            '',
+            possible_tiles_dropdown_values,
+            _n('Type', 'Types', 1),
+            {
+                full_width: true,
+                is_horizontal: false,
+                display_emptychoice: true,
+                add_data_attributes: {'glpi-helpdesk-config-add-tile-type': ''},
+            }
+        ) }}
+
+        {% for tile in possible_tiles %}
+            <div
+                class="d-none"
+                data-glpi-helpdesk-config-add-tile-form-for="{{ get_class(tile) }}"
+            >
+                {{ include(tile.getConfigFieldsTemplate(), {tile: tile}, with_context = false) }}
+            </div>
+        {% endfor %}
+
+        <div class="d-flex mt-4 mb-3">
+            <button
+                type="button"
+                class="btn btn-primary ms-2 w-auto d-none align-items-center"
+                data-glpi-helpdesk-config-add-tile-submit
+                aria-label="{{ __("Add tile") }}"
+            >
+                <i
+                    class="ti ti-plus me-1"
+                    data-glpi-helpdesk-config-add-tile-submit-plus-icon aria-hidden="true"
+                ></i>
+                <i
+                    class="ti ti-loader-2 fa-spin me-1 d-none"
+                    data-glpi-helpdesk-config-add-tile-submit-spinner-icon aria-hidden="true"
+                ></i>
+                <span>{{ __("Add tile") }}</span>
+            </button>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,11 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+   {{ fields.textField('name', item.fields['name'], __('Name')) }}
+   {{ fields.dropdownItemTypes('itemtype', item.fields['itemtype']|default('Ticket'), _n('Type', 'Types', 1), {
+      types: config('notificationtemplates_types')
+   }) }}
+   {{ fields.textareaField('comment', item.fields['comment'], __('Comments')) }}
+   {{ fields.textareaField('css', item.fields['css'], __('CSS')) }}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% set params  = params ?? [] %}
+
+{% block more_fields %}
+    {% set dd_software %}
+    {{ 'Software'|itemtype_dropdown({
+        'value': item.fields['softwares_id'],
+        'rand': rand,
+    }) }}
+    {% endset %}
+
+    {{ fields.checkboxField(
+        'is_update',
+        item.fields['is_update'],
+        __('Upgrade'),
+        field_options|merge({
+            add_field_html: __('from') ~ dd_software
+        })
+    ) }}
+
+    {{ fields.dropdownField(
+        'SoftwareCategory',
+        'softwarecategories_id',
+        item.fields['softwarecategories_id'],
+        'SoftwareCategory'|itemtype_name,
+        field_options
+    ) }}
+{% endblock %}

@@ -1,0 +1,20 @@
+<div class="p-0 group-info-card">
+   <div class="row">
+      <h4 class="card-title mb-1">
+         {% if group['id'] %}
+            <a href="{{ 'Group'|itemtype_form_path(group['id']) }}">{{ group['group_name'] }}</a>
+         {% else %}
+            {{ group['group_name'] }}
+         {% endif %}
+      </h4>
+
+      <div class="text-muted">
+         {% if group['comment']|length > 0 %}
+            <div>
+               <i class="ti ti-notes" aria-hidden="true"></i>
+               {{ group['comment'] }}
+            </div>
+         {% endif %}
+      </div>
+   </div>
+</div>

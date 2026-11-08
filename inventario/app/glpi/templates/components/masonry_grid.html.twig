@@ -1,0 +1,50 @@
+{% if grid_item_class is not defined %}
+   {% set grid_item_class = 'col-xl-6' %}
+{% endif %}
+
+{% set rand = random() %}
+<div id="grid_{{ rand }}" class="masonry_grid row row-cards mb-5">
+   {% for item in grid_items %}
+      {% if item is not empty %}
+         <div class="grid-item {{ grid_item_class }}">
+            {{ item|raw }}
+         </div>
+      {% endif %}
+   {% endfor %}
+</div>
+
+<script type="text/javascript">
+$(function() {
+   window.msnry_grid_{{ rand }} = new Masonry('#grid_{{ rand }}', {
+      "percentPosition": true,
+      "horizontalOrder": true,
+   });
+
+   $('#grid_{{ rand }}').on("layout:refresh", function() {
+       window.msnry_grid_{{ rand }}.layout();
+   });
+
+   $(document).on('masonry_grid:layout', function() {
+       window.msnry_grid_{{ rand }}.layout();
+   });
+
+   // Use MutationObserver with debouncing to detect content changes
+   const observer = new MutationObserver(window._.debounce(function(mutations) {
+       requestAnimationFrame(function() {
+           window.msnry_grid_{{ rand }}.layout();
+       });
+   }, 150));
+
+   observer.observe(document.getElementById('grid_{{ rand }}'), {
+       childList: true,
+       subtree: true
+   });
+
+   // Also handle window resize with debouncing
+   $(window).on('resize', window._.debounce(function() {
+       requestAnimationFrame(function() {
+           window.msnry_grid_{{ rand }}.layout();
+       });
+   }, 150));
+});
+</script>

@@ -1,0 +1,21 @@
+{% set rand = rand|default(random()) %}
+
+<div id="displaypreference_modal{{ rand }}" class="modal fade" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            {% set header = __('Select default items to show') %}
+            {% if itemtype != '__VALUE__' %}
+               {% set header = header ~ ' - ' ~ itemtype|itemtype_name %}
+            {% endif %}
+            <h4 class="modal-title">{{ header }}</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+         </div>
+         <div class="modal-body">
+            <div class="ratio ratio-1x1">
+               <iframe data-testid="display-preference-iframe" src="{{ path('/front/displaypreference.form.php?itemtype=' ~ itemtype|escape('url')) }}"></iframe>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

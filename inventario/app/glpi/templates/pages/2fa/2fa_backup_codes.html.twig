@@ -1,0 +1,13 @@
+{# Show backup codes after setup process during login #}
+{% extends 'layout/page_card_notlogged.html.twig' %}
+{% import 'pages/2fa/macros.html.twig' as tfa %}
+
+{% block content_block %}
+    {{ tfa.tfa_backup_codes_container(backup_codes) }}
+    <form class="d-flex flex-row-reverse" method="get" action="{{ path('front/login.php') }}">
+        {% if redirect is not empty %}
+            <input type="hidden" name="redirect" value="{{ redirect }}"/>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">{{ __('Continue') }}</button>
+    </form>
+{% endblock %}

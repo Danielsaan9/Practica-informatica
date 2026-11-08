@@ -1,0 +1,59 @@
+.itil-footer {
+    position: sticky;
+    bottom: 0;
+
+    @include media-breakpoint-down(sm) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 8px;
+        z-index: var(--glpi-zindex-fixed);
+    }
+
+    .main-actions {
+        &.btn-splitted {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+    }
+
+    .answer-action {
+        &:hover {
+            font-weight: bold;
+        }
+    }
+
+    .action-task {
+        background-color: var(--glpi-timeline-task-bg);
+        color: var(--glpi-timeline-task-fg);
+    }
+
+    .action-solution {
+        background-color: var(--glpi-timeline-solution-bg);
+        color: var(--glpi-timeline-solution-fg);
+    }
+
+    .action-validation {
+        background-color: var(--glpi-timeline-itil-content-bg);
+        color: var(--glpi-timeline-itil-content-fg);
+    }
+
+    .action-document {
+        background-color: var(--glpi-timeline-document-bg);
+        color: var(--glpi-timeline-document-fg);
+    }
+
+    .buttons-bar {
+        background-color: var(--glpi-itil-secondary-bg);
+
+        .form-buttons {
+            background-color: inherit;
+            border-left: 1px solid var(--tblr-border-color);
+
+            @include media-breakpoint-down(md) {
+                border-left: 0 !important;
+            }
+        }
+    }
+}

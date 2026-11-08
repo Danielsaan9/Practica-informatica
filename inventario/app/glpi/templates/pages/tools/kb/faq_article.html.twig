@@ -1,0 +1,22 @@
+{#
+ # The helpdesk FAQ's single-article view: the same two-column aside/content
+ # layout `CommonGLPI::display()` builds for the central knowledge base.
+ #
+ # - `aside`   pre-rendered aside HTML (`KnowbaseItem::getAsideContent()`), or null.
+ # - `slug`    itemtype slug for the `data-main-page-aside` styling hook.
+ # - `article` pre-rendered article HTML (`KnowbaseItem::showFull()`).
+ #}
+<div class="row">
+    {% if aside is not null %}
+        <aside class="col card border-radius-0 p-0" data-main-page-aside="{{ slug }}">
+            {{ aside|raw }}
+        </aside>
+    {% endif %}
+    <div class="col">
+        {# `card p-2` mirrors the central tab container: the article template
+         # compensates its padding with `mx-n2 my-n2`. #}
+        <div class="card p-2">
+            {{ article|raw }}
+        </div>
+    </div>
+</div>

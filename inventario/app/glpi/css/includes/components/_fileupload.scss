@@ -1,0 +1,50 @@
+.fileupload:not(.only-uploaded-files) {
+    text-align: center;
+    border: 1px dashed #ccc;
+    background: #cccccc1c;
+    min-height: 65px;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin: 5px auto 0.5em;
+    width: 100%;
+
+    input[type="file"] {
+        width: auto;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.fileupload.only-uploaded-files input[type="file"] {
+    display: none;
+}
+
+.fileupload_info {
+    margin-bottom: 10px;
+}
+
+.draghover {
+    background: #fbf8df;
+}
+
+.form-control[type="file"]::file-selector-button {
+    color: var(--tblr-secondary);
+    background-color: transparent;
+    border-color: var(--tblr-secondary);
+}
+
+.form-control[type="file"]:hover:not(:disabled)::file-selector-button {
+    background-color: var(--tblr-secondary);
+    color: var(--tblr-secondary-fg);
+}
+
+.form-control[type="file"]:active:not(:disabled)::file-selector-button {
+    background-color: var(--tblr-secondary);
+    color: var(--tblr-secondary-fg);
+}
+
+.form-control[type="file"]:disabled::file-selector-button {
+    color: var(--tblr-secondary-fg);
+    border-color: transparent;
+}

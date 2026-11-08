@@ -1,0 +1,14 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+{% block fields %}
+    {% block more_fields %}
+        {% set field_params = {
+            field_class: 'col-12 col-sm-4'
+        } %}
+        {{ inputs.hidden('calendars_id', calendars_id) }}
+        {{ fields.dropdownArrayField('day', null, days_of_week, _n('Day', 'Days', 1), field_params) }}
+        {{ fields.dropdownHoursField('begin', begin, __('Start'), field_params) }}
+        {{ fields.dropdownHoursField('end', end, __('End'), field_params) }}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% do call(['Html', header_method], [page_title]) %}
+
+{{ include('error_block.html.twig', {
+    message: message,
+    trace: trace,
+    link_url: link_url,
+    link_text: link_text,
+}, with_context = false) }}
+
+{% do call(['Html', 'footer']) %}

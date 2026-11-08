@@ -1,0 +1,59 @@
+{% block more_fields %}
+    {% do call('Html::printAjaxPager', ['RuleMatchedLog'|itemtype_name, start, count]) %}
+
+    <table class="tab_cadre_fixe">
+        <tr>
+            <th colspan="5"> {{ __('Rule import logs') }} </th>
+        </tr>
+        <tr>
+            <th> {{ _n('Date', 'Dates', 1) }}</th>
+            <th>{{ __('Rule name') }}</th>
+            <th>
+                {% if item is instanceof('Agent') %}
+                    {{ _n('Item', 'Items', 1) }}
+                {% else %}
+                    {{ 'Agent'|itemtype_name }}
+                {% endif %}
+            </th>
+            <th>{{ __('Module') }}</th>
+            <th style="width: 30%">{{ __('Input') }}</th>
+        </tr>
+        {% for data in rows %}
+            <tr>
+                <td>{{ data['date']|formatted_datetime }}</td>
+                <td>{{ get_item_link('RuleImportAsset', data['rules_id']) }}</td>
+                <td>
+                    {% if item is instanceof('Agent') %}
+                        {{ get_item_link(data['itemtype'], data['items_id']) }}
+                    {% else %}
+                        {{ get_item_link('Agent', data['agents_id']) }}
+                    {% endif %}
+                </td>
+                <td>{{ data['modulename'] }}</td>
+                <td>
+                    {% if data['input'] is not empty %}
+                        {% set rand = random() %}
+                        <div class="accordion" id="inputAccordion{{ rand }}">
+                            <div id="item{{ rand }}">
+                                <a class="btn btn-ghost-secondary btn-sm" data-bs-toggle="collapse" href="#collapse{{ rand }}">{{ __("See input") }}</a>
+                            </div>
+                            <div id="collapse{{ rand }}" class="accordion-collapse collapse" data-bs-parent="#inputAccordion{{ rand }}">
+                                <div class="nested list-group list-group-flush card">
+                                    <div class="list-group-item ">
+                                        <pre>
+{{ data['input']|json_encode(constant('JSON_PRETTY_PRINT')) }}
+                                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ __('No input') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% do call('Html::printAjaxPager', ['RuleMatchedLog'|itemtype_name, start, count]) %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{{ fields.textField('title', tile.fields['title']|default(''), __('Title'), {
+    full_width: true,
+    is_horizontal: false,
+    maxlength: 255,
+}) }}
+
+{{ fields.textareaField(
+    'description',
+    tile.fields['description']|default(''),
+    __('Description'), {
+        full_width: true,
+        is_horizontal: false,
+        enable_richtext: true,
+        plugins_to_remove: ['link', 'autolink'],
+    }
+) }}
+
+{{ fields.illustrationField(
+    'illustration',
+    tile.getIllustration(),
+    __('Illustration'),
+    {
+        is_horizontal: false,
+        full_width : true,
+        backdrop: false,
+        extra_css_classes: 'illustration-selector-extra-margin',
+    }
+) }}
+
+{{ fields.dropdownArrayField(
+    'page',
+    tile.getPage(),
+    tile.getPossiblesPages(),
+    __('Target page'),
+    {
+        full_width: true,
+        is_horizontal: false,
+    }
+) }}

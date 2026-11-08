@@ -1,0 +1,7 @@
+<?php
+
+/**
+ * @var array $ADDTODISPLAYPREF
+ */
+
+$ADDTODISPLAYPREF['Consumable'] = [2, 8, 3, 4, 5, 6, 7];

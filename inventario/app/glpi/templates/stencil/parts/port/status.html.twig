@@ -1,0 +1,28 @@
+{% set color = "" %}
+{% set text = "" %}
+
+{% if port['ifstatus'] == 1 %}
+    {% set color = "status-green" %}
+    {% set text  = __('Connected') %}
+{% elseif port['ifstatus'] == 2 %}
+    {% set color = "status-red" %}
+    {% set text  = __('Not connected') %}
+{% elseif port['ifstatus'] == 3 %}
+    {% set color = "status-orange" %}
+    {% set text  = __('Testing') %}
+{% elseif port['ifstatus'] == 5 %}
+    {% set color = "status-muted" %}
+    {% set text  = __('Dormant') %}
+{% else %}
+    {% set color = "status-muted" %}
+    {% set text  = __('Unknown') %}
+{% endif %}
+
+{% if with_text %}
+    <span class="status {{ color }}">
+        <span class="status-dot"></span>
+        {{ text }}
+    </span>
+{% else %}
+    <span class="ms-1 status-dot {{ color }}" title="{{ text }}"></span>
+{% endif %}

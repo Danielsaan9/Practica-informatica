@@ -1,0 +1,10 @@
+# Datos privados y generados: no versionar
+/config/
+/config_stage/
+/files/
+/marketplace/
+.env
+*.sql
+*.dump
+*.log
+*.bak

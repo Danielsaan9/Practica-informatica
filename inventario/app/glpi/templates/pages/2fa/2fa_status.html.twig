@@ -1,0 +1,40 @@
+{% import 'pages/2fa/macros.html.twig' as tfa %}
+
+<form method="post" action="#" data-submit-once>
+    {% set status_message %}
+        {% if enforcement == constant('Glpi\\Security\\TOTPManager::ENFORCEMENT_MANDATORY_GRACE_PERIOD') %}
+            {{ __('2FA grace period ends %s')|format(grace_period_end|relative_datetime) }}
+        {% elseif enforcement == constant('Glpi\\Security\\TOTPManager::ENFORCEMENT_MANDATORY') %}
+            {{ __('Mandatory') }}
+        {% else %}
+            {{ __('Optional') }}
+        {% endif %}
+    {% endset %}
+    <twig:Alert
+        :heading="__('2FA enabled')"
+        :content="status_message"
+    />
+   {{ tfa.tfa_backup_codes_container() }}
+   <div>
+      {% if enforcement != constant('Glpi\\Security\\TOTPManager::ENFORCEMENT_MANDATORY') %}
+         <button type="submit" class="btn btn-danger" name="disable_2fa">
+            {{ __('Disable 2FA') }}
+         </button>
+      {% else %}
+         <button type="submit" class="btn btn-danger" name="reset_2fa">
+            {{ __('Reset 2FA') }}
+         </button>
+      {% endif %}
+      <button type="button" class="btn btn-outline-secondary" name="regenerate_backup_codes">
+         {{ __('Regenerate backup codes') }}
+      </button>
+      <script>
+         $(function() {
+
+            {% if regenerate_backup_codes %}
+             $('button[name="regenerate_backup_codes"]').trigger('click');
+            {% endif %}
+         });
+      </script>
+   </div>
+</form>

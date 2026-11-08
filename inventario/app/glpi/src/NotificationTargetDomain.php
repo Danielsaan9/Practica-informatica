@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @extends NotificationTarget<Domain>
+ */
+class NotificationTargetDomain extends NotificationTarget
+{
+    #[Override]
+    public function getEvents()
+    {
+        return [
+            'ExpiredDomains'     => __('Expired domains'),
+            'DomainsWhichExpire' => __('Expiring domains'),
+        ];
+    }
+
+    public function addAdditionalTargets($event = '')
+    {
+        $this->addTarget(
+            Notification::ITEM_TECH_IN_CHARGE,
+            __('Technician in charge of the domain')
+        );
+        $this->addTarget(
+            Notification::ITEM_TECH_GROUP_IN_CHARGE,
+            __('Group in charge of the domain')
+        );
+    }
+
+    #[Override]
+    public function addDataForTemplate($event, $options = [])
+    {
+        $domain = $this->obj;
+
+        $options['domains'] = [];
+        if (!$domain->isNewItem()) {
+            $options['domains'][] = $domain->fields;// Compatibility with old behaviour
+        }
+        $options['entities_id'] = $domain->fields['entities_id'];
+
+        $this->data['##domain.entity##']      = Dropdown::getDropdownName('glpi_entities', $options['entities_id']);
+        $this->data['##lang.domain.entity##'] = Entity::getTypeName(1);
+        $this->data['##domain.action##']      = ($event == "ExpiredDomains" ? __('Expired domains') : __('Expiring domains'));
+        $this->data['##lang.domain.name##']           = __('Name');
+        $this->data['##lang.domain.dateexpiration##'] = __('Expiration date');
+
+        $this->data['##domain.name##']           = $domain->fields['name'];
+        $this->data['##domain.dateexpiration##'] = Html::convDate($domain->fields['date_expiration']);
+
+        foreach ($options['domains'] as $domain_data) {
+            // Old behaviour preserved as notifications rewriting in migrations is kind of complicated
+            $this->data['domains'][] = [
+                '##domain.name##'             => $domain_data['name'],
+                '##domain.dateexpiration##'   => Html::convDate($domain_data['date_expiration']),
+            ];
+        }
+    }
+
+    #[Override]
+    public function getTags()
+    {
+        $tags = [
+            'domain.name'           => __('Name'),
+            'domain.dateexpiration' => __('Expiration date'),
+        ];
+
+        foreach ($tags as $tag => $label) {
+            $this->addTagToList([
+                'tag'   => $tag,
+                'label' => $label,
+                'value' => true,
+            ]);
+        }
+
+        $this->addTagToList([
+            'tag'     => 'domains',
+            'label'   => __('Expired or expiring domains (deprecated; contains only one element)'),
+            'value'   => false,
+            'foreach' => true,
+            'events'  => ['DomainsWhichExpire', 'ExpiredDomains'],
+        ]);
+
+        asort($this->tag_descriptions);
+    }
+}

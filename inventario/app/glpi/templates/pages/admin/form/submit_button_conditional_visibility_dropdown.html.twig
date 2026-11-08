@@ -1,0 +1,70 @@
+{% extends "pages/admin/form/condition_configuration.html.twig" %}
+
+{# Compute strategy, with a fallback to "Always visible" #}
+{% if item is null %}
+    {% set submit_button_strategy = enum('Glpi\\Form\\Condition\\VisibilityStrategy').ALWAYS_VISIBLE %}
+{% else %}
+    {% set submit_button_strategy = item.getConfiguredVisibilityStrategy() %}
+{% endif %}
+
+{% block conditions_editor %}
+    <div
+        data-glpi-form-editor-visibility-dropdown-container
+        class="btn-group pe-0"
+    >
+        <button
+            title="{{ __('Configure visibility') }}"
+            data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
+            class="dropdown-toggle btn btn-outline-secondary px-2"
+            data-bs-placement="top"
+            type="button"
+            data-glpi-form-editor-visibility-dropdown
+        >
+            {% for strategy in enum_cases('Glpi\\Form\\Condition\\VisibilityStrategy') %}
+                {% set is_visible = submit_button_strategy == strategy %}
+                {% set display_class = is_visible ? 'd-flex' : 'd-none' %}
+                <div
+                    class="{{ display_class }} align-items-center"
+                    data-glpi-editor-visibility-badge="{{ strategy.value }}"
+                    data-testid="active-visibility-setting"
+                >
+                    <i class="{{ strategy.getIcon() }} me-1" aria-hidden="true"></i>
+                    <span>{{ strategy.getLabel() }}</span>
+                    <span
+                        class="badge text-bg-secondary ms-1"
+                        data-glpi-editor-visibility-conditions-count-badge
+                        role="status"
+                        aria-label="{{ __('Conditions count') }}"
+                    >
+                        {{ item.getConfiguredConditionsData()|length }}
+                    </span>
+                </div>
+            {% endfor %}
+        </button>
+        <div
+            class="dropdown-menu dropdown-menu-end dropdown-menu-card animate__animated animate__zoomIn"
+        >
+            <div class="card visibility-dropdown-card" data-glpi-form-editor-on-click="stop-propagation">
+                <div class="card-body">
+                    <h3 class="card-title d-flex align-items-center">
+                        <i class="ti ti-circuit-changeover me-2" aria-hidden="true"></i>
+                        {{ __('Conditional visibility') }}
+                    </h3>
+                    {% if allow_unauthenticated_access is defined and allow_unauthenticated_access %}
+                    <p class="text-muted small mb-3">
+                        {{ __('For anonymous forms, the ALTCHA anti-bot widget will follow this same visibility.') }}
+                    </p>
+                    {% endif %}
+
+                    {# Parent properties #}
+                    {% set strategies = 'Glpi\\Form\\Condition\\VisibilityStrategy' %}
+                    {% set selected_strategy = submit_button_strategy %}
+                    {% set strategy_input_name = "submit_button_visibility_strategy" %}
+                    {% set conditions = item is not null ? item.getConfiguredConditionsData() : [] %}
+                    {{ parent() }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

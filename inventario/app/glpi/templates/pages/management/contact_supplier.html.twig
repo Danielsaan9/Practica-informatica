@@ -1,0 +1,26 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<div class="mb-3">
+    <form method="post" action="{{ 'Contact_Supplier'|itemtype_form_path }}" data-submit-once>
+        <div class="d-flex">
+            {% if get_class(peer) == 'Contact' %}
+                <input type="hidden" name="contacts_id" value="{{ peer.getID() }}">
+                {{ fields.dropdownField('Supplier', 'suppliers_id', '', __('Add a supplier'), {
+                    used: used,
+                    entity: peer.getEntityID(),
+                    entity_sons: peer.isRecursive(),
+                }) }}
+            {% else %}
+                <input type="hidden" name="suppliers_id" value="{{ peer.getID() }}">
+                {{ fields.dropdownField('Contact', 'contacts_id', '', __('Add a contact'), {
+                    used: used,
+                    entity: peer.getEntityID(),
+                    entity_sons: peer.isRecursive(),
+                }) }}
+            {% endif %}
+            <div>
+                <button type="submit" name="add" class="btn btn-primary ms-3">{{ _x('button', 'Add') }}</button>
+            </div>
+        </div>
+    </form>
+</div>

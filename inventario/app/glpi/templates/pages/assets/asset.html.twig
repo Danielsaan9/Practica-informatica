@@ -1,0 +1,13 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% set params  = params ?? [] %}
+
+{% block more_fields %}
+    {% if item.isNewItem() %}
+        {{ fields.hiddenField(
+            'Glpi\\Asset\\AssetDefinition'|itemtype_foreign_key,
+            _get['Glpi\\Asset\\AssetDefinition'|itemtype_foreign_key]|default(0),
+        ) }}
+    {% endif %}
+{% endblock %}

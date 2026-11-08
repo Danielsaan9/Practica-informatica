@@ -1,0 +1,30 @@
+import("/js/modules/Forms/QuestionDropdown.js").then((m) => {
+    {% if question is not null %}
+        const container = $('div[data-glpi-form-editor-selectable-question-options="{{ rand|e('css')|e('js') }}"]');
+        container.data(
+            'manager',
+            new m.GlpiFormQuestionTypeDropdown('{{ input_type|escape('js') }}', container)
+        );
+    {% else %}
+        $(document).on('glpi-form-editor-question-type-changed', function(e, question, type) {
+            if (type === '{{ question_type|escape('js') }}') {
+                const container = question.find('div[data-glpi-form-editor-selectable-question-options]');
+                container.data(
+                    'manager',
+                    new m.GlpiFormQuestionTypeDropdown('{{ input_type|escape('js') }}', container, true)
+                );
+            }
+        });
+
+        $(document).on('glpi-form-editor-question-duplicated', function(e, question, new_question) {
+            const question_type = question.find('input[data-glpi-form-editor-original-name="type"]').val();
+            if (question_type === '{{ question_type|escape('js') }}') {
+                const container = new_question.find('div[data-glpi-form-editor-selectable-question-options]');
+                container.data(
+                    'manager',
+                    new m.GlpiFormQuestionTypeDropdown('{{ input_type|escape('js') }}', container, true)
+                );
+            }
+        });
+    {% endif %}
+});

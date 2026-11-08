@@ -1,0 +1,23 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{{ fields.dropdownArrayField(
+    input_name,
+    input_value is not iterable ? input_value : '',
+    itemtypes,
+    '',
+    {
+        'multiple'           : is_multiple_devices,
+        'values'             : input_value|default([]),
+        'display_emptychoice': true,
+        'no_label'           : true,
+        'wrapper_class'      : '',
+        'mb'                 : '',
+        'aria_label'         : input_label,
+        'add_data_attributes': {
+            'glpi-conditions-editor-value': '',
+        },
+        'field_class'        : [
+            'me-2 value-selector flex-grow-1',
+        ]|join(' '),
+    }
+) }}

@@ -1,0 +1,27 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+
+{% block form_fields %}
+    {{ inputs.hidden('users_id', session('glpiID')) }}
+    {{ inputs.hidden('reminders_id', item.fields['reminders_id']) }}
+
+    {% set field_options = {
+        full_width: true
+    } %}
+
+    {% set lang_dropdown %}
+        {% do call('Dropdown::showLanguages', ['language', {
+            display_name: false,
+            value: session('glpilanguage'),
+            used: used_langs
+        }]) %}
+    {% endset %}
+    {{ fields.htmlField('', lang_dropdown, __('Language'), field_options) }}
+
+    {{ fields.textField('name', item.fields['name'], __('Name'), field_options) }}
+    {{ fields.textareaField('text', item.fields['text']|safe_html, __('Description'), field_options|merge({
+        enable_richtext: true,
+        enable_fileupload: false
+    })) }}
+{% endblock %}

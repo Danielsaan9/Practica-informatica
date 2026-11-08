@@ -1,0 +1,15 @@
+{% extends "layout/page_without_tabs.html.twig" %}
+
+{% set container_size = "narrow" %}
+
+{% block content_title %}
+    {{ title }}
+{% endblock content_title %}
+
+{% block content_body %}
+    <div class="card">
+        <div class="card-body rich-text-content">
+            {{ content|enhanced_html({text_maxsize: 0, user_mentions: false}) }}
+        </div>
+    </div>
+{% endblock content_body %}

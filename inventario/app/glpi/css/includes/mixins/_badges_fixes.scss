@@ -1,0 +1,19 @@
+// reset change in tabler : https://github.com/tabler/tabler/commit/a9075f6717958300afad13fe51311f7e78bb7e91#diff-340d6988403d25d9ca8e073d798e79a801f5c4fcf9a67366dee207d2ed9fef54L2
+@mixin tabler-badge-fix {
+    display: inline-flex;
+    font-size: 0.625rem;
+    min-height: 1.25rem;
+    height: auto;
+    align-items: flex-start;
+    vertical-align: middle;
+    border: 1px solid transparent;
+
+    .badge {
+        min-height: 100%;
+        margin: -0.25rem -0.25rem -0.25rem 0.5rem;
+
+        a {
+            color: inherit;
+        }
+    }
+}

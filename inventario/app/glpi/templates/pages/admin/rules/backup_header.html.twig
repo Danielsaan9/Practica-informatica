@@ -1,0 +1,11 @@
+{% macro btn(url, icon, label) %}
+   <a class="btn btn-primary me-2" href="{{ url }}">
+      <i class="{{ icon }}" aria-hidden="true"></i>
+      <span>{{ label }}</span>
+   </a>
+{% endmacro %}
+
+<div class="center mb-3">
+   {{ _self.btn(config('root_doc') ~ '/front/rule.backup.php?action=import', 'ti ti-upload', _x('button', 'Import')) }}
+   {{ _self.btn(config('root_doc') ~ '/front/rule.backup.php?action=export', 'ti ti-download', _x('button', 'Export')) }}
+</div>

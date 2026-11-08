@@ -1,0 +1,13 @@
+<span class="me-2 value-selector flex-grow-1">
+    {% do call('Dropdown::showFromArray', [
+        input_name,
+        values,
+        {
+            'value': input_value,
+            'aria_label': input_label,
+            'add_data_attributes': {
+                'glpi-conditions-editor-value': '',
+            },
+        }
+    ]) %}
+</span>

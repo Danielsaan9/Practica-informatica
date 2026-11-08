@@ -1,0 +1,17 @@
+<div class="d-flex mb-3 align-items-center">
+    <i class="{% block icon %}{% endblock %} me-2" aria-hidden="true"></i>
+    <h2 class="mb-0 fs-3">{% block title %}{% endblock %}</h2>
+    <i
+        class="ti ti-x ms-auto pointer"
+        role="button"
+        data-glpi-knowbase-side-panel-close
+        data-testid="side-panel-close"
+        title="{{ __("Close") }}"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+    ></i>
+</div>
+
+<hr class="mt-0 ms-n4 me-n4 mb-4">
+
+{% block content %}{% endblock %}

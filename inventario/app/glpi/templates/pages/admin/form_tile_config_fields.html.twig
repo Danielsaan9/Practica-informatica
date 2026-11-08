@@ -1,0 +1,15 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{{ fields.dropdownField(
+    'Glpi\\Form\\Form',
+    'forms_forms_id',
+    tile.getFormId(),
+    __('Target form'),
+    {
+        full_width: true,
+        is_horizontal: false,
+        condition: {
+            is_draft: 0
+        }
+    }
+) }}

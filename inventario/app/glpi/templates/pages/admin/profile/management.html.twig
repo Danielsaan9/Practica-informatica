@@ -1,0 +1,16 @@
+{% extends 'pages/admin/profile/base_tab.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block content %}
+    {{ _self.displayRightsMatrix(item, 'central', 'management', 'general', __('Management')) }}
+    {{ fields.dropdownArrayField(
+        'managed_domainrecordtypes',
+        '',
+        {'-1': __('All')} + item.getDomainRecordTypes(),
+        __('Manageable domain records'),
+        {
+            multiple: true,
+            values: item.fields['managed_domainrecordtypes'],
+        }
+    ) }}
+{% endblock %}

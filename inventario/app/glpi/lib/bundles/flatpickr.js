@@ -1,0 +1,2 @@
+const flatpickr = require("flatpickr");
+require('flatpickr/dist/flatpickr.css');

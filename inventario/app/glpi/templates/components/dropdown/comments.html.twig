@@ -1,0 +1,10 @@
+{% if extra_rows|length > 0 %}
+    {% for label, value in extra_rows %}
+        <span class="b">{{ __('%1$s: %2$s')|format(label, '') }}</span>{{ value|nl2br }}<br />
+    {% endfor %}
+    {% if comment is not empty %}
+        <span class="b">{{ __('%1$s: %2$s')|format(__('Comments'), '') }}</span>
+    {% endif %}
+{% endif %}
+
+{{ comment|nl2br }}

@@ -1,0 +1,6 @@
+{% extends 'pages/admin/profile/base_tab.html.twig' %}
+
+{% block content %}
+    {{ _self.displayRightsMatrix(item, 'central', 'assets', 'general', _n('Asset', 'Assets', get_plural_number())) }}
+    {{ _self.displayRightsMatrix(item, 'central', 'assets', 'custom_assets', _n('Custom asset', 'Custom assets', get_plural_number())) }}
+{% endblock %}

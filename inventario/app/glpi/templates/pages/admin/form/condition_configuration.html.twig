@@ -1,0 +1,123 @@
+{# Must be an enum implementing 'Glpi\\Form\\Condition\\StrategyInterface' #}
+{% set strategies = null %}
+
+{# Currently selected strategy #}
+{% set selected_strategy = null %}
+{% set strategy_input_name = null %}
+
+{# Configured conditions #}
+{% set conditions = null %}
+
+{% block conditions_editor %}
+    <div data-glpi-conditions-editor-container data-testid="conditions-container">
+        <div class="btn-group" role="group">
+
+            {# Display strategy picker #}
+            {% for strategy in enum_cases(strategies) %}
+                {% set rand = random() %}
+                <input
+                    id="strategy_{{ rand }}"
+                    type="radio"
+                    class="btn-check"
+                    name="{{ strategy_input_name }}"
+                    value="{{ strategy.value }}"
+                    autocomplete="off"
+                    data-glpi-conditions-editor-strategy
+                    {% if selected_strategy == strategy %}
+                        checked
+                        data-glpi-editor-refresh-checked
+                    {% endif %}
+                    {# Will be enabled by the js controller to prevent actions until it is ready #}
+                    data-glpi-conditions-editor-disabled
+                    data-glpi-conditions-editor-enable-on-ready
+                >
+                <label
+                    for="strategy_{{ rand }}"
+                    class="btn btn-outline-secondary"
+                    data-testid="strategy-label-{{ strategy.value }}"
+                >
+                    <i class="{{ strategy.getIcon() }} me-2" aria-hidden="true"></i>
+                    {{ strategy.getLabel() }}
+                </label>
+            {% endfor %}
+        </div>
+
+        {% set is_visible = selected_strategy.showEditor() %}
+        {% set visibility_class = is_visible ? '' : 'd-none' %}
+        <div
+            class="{{ visibility_class }} mt-4"
+            data-glpi-conditions-editor
+            data-testid="conditions-editor"
+            {% for strategy in enum_cases(strategies) %}
+                {% if strategy.showEditor() %}
+                    data-glpi-conditions-editor-display-for-{{ strategy.value }}
+                {% endif %}
+            {% endfor %}
+        >
+            {# This div will be rendered using AJAX when the dropdown is opened #}
+            <div class="card-body placeholder-glow">
+                <div class="placeholder col-12 mb-2"></div>
+                <div class="placeholder col-12 mb-2"></div>
+                <div class="placeholder col-12 mb-2"></div>
+                <div class="placeholder col-12 mb-2"></div>
+                <div class="placeholder col-12 mb-2"></div>
+            </div>
+            {# Initial values #}
+            {% for condition in conditions %}
+                {% if not condition.getItemUuid() is empty %}
+                    <div data-glpi-conditions-editor-condition>
+                        {% if not loop.first %}
+                            <input
+                                type="hidden"
+                                name="_conditions[{{ loop.index0 }}][logic_operator]"
+                                value="{{ condition.getLogicOperator().value }}"
+                                data-glpi-conditions-editor-logic-operator
+                            />
+                        {% endif %}
+                        <input
+                            type="hidden"
+                            name="_conditions[{{ loop.index0 }}][item]"
+                            value="{{ condition.getItemDropdownKey() }}"
+                            data-glpi-conditions-editor-item
+                        />
+                        <input
+                            type="hidden"
+                            name="_conditions[{{ loop.index0 }}][item_uuid]"
+                            value="{{ condition.getItemUuid() }}"
+                            data-glpi-conditions-editor-item-uuid
+                        />
+                        <input
+                            type="hidden"
+                            name="_conditions[{{ loop.index0 }}][item_type]"
+                            value="{{ condition.getItemType().value }}"
+                            data-glpi-conditions-editor-item-type
+                        />
+                        <input
+                            type="hidden"
+                            name="_conditions[{{ loop.index0 }}][value_operator]"
+                            value="{{ condition.getValueOperator().value }}"
+                            data-glpi-conditions-editor-value-operator
+                        />
+                        {% macro render_condition_value(original_loop_index, value, path = []) %}
+                            {% if value is iterable %}
+                                {% for key, child_value in value %}
+                                    {{ _self.render_condition_value(original_loop_index, child_value, path|merge([key])) }}
+                                {% endfor %}
+                            {% else %}
+                                <input
+                                    type="hidden"
+                                    name="_conditions[{{ original_loop_index }}][value]{% for path_key in path %}[{{ path_key }}]{% endfor %}"
+                                    value="{{ value }}"
+                                    data-glpi-conditions-editor-value
+                                />
+                            {% endif %}
+                        {% endmacro %}
+                        {% import _self as condition_editor %}
+                        {% set original_loop_index = loop.index0 %}
+                        {{ condition_editor.render_condition_value(original_loop_index, condition.getValue()) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

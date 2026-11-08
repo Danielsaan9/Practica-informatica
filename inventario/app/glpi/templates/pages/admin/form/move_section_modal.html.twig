@@ -1,0 +1,64 @@
+{# Move section modal #}
+<div
+    data-glpi-form-editor-move-section-modal
+    data-bs-focus="false"
+    class="modal modal-blur fade"
+    aria-modal="true"
+    role="dialog"
+    aria-label="{{ __("Reorganize sections") }}"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ __("Reorganize sections") }}</h3>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{{ __("Close") }}"
+                ></button>
+            </div>
+
+            {# Items will be generated when the modal is open #}
+            <div
+                class="list-group list-group-flush"
+                data-glpi-form-editor-move-section-modal-items
+            ></div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    data-glpi-form-editor-on-click="reorder-sections"
+                    class="btn btn-primary"
+                >
+                    {{ __("Save") }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {# Items template #}
+    <div
+        data-glpi-form-editor-move-section-modal-item-template
+        data-glpi-draggable-item
+    >
+        <section
+            class="list-group-item cursor-grab"
+            data-glpi-form-editor-move-section-modal-item-section-key="null"
+        >
+            <div class="row align-items-center" data-glpi-form-editor-section-handle>
+                <div class="col-auto">
+                    <i
+                        class="ti ti-grip-vertical"
+                        style="opacity: 0.6;" aria-hidden="true"
+                    ></i>
+                </div>
+                <div
+                    class="col text-truncate"
+                    data-glpi-form-editor-move-section-modal-item-section-name
+                >
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

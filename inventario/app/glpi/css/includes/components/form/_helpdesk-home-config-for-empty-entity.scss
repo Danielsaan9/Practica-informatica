@@ -1,0 +1,6 @@
+.helpdesk-home-config-for-empty-entity-wrapper {
+    // Hide the tiles and actions
+    [data-glpi-helpdesk-config-tiles], [data-glpi-helpdesk-config-actions] {
+        display: none !important;
+    }
+}

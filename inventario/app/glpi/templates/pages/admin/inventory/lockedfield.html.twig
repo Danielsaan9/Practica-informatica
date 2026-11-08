@@ -1,0 +1,12 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% set params  = params ?? [] %}
+
+{% block more_fields %}
+    {{ fields.dropdownArrayField(
+        'item',
+        null,
+        item.getFieldsToLock(),
+        _n('Field', 'Fields', 1)
+    ) }}
+{% endblock %}

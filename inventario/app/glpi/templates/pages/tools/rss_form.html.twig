@@ -1,0 +1,36 @@
+{% extends 'generic_show_form.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+    {% if not item.isNewItem() %}
+        {{ fields.textField('name', item.fields['name'], __('Name')) }}
+    {% endif %}
+    {{ fields.textField('url', item.fields['url'], __('URL'), {
+        full_width: true
+    }) }}
+
+    {{ fields.htmlField('', user|e('html'), __('By')) }}
+    {{ fields.nullField() }}
+
+    {{ fields.dropdownYesNo('is_active', item.fields['is_active'], __('Active')) }}
+    {{ fields.dropdownTimestampField('refresh_rate', item.fields['refresh_rate'], __('Refresh rate'), {
+        min: constant('HOUR_TIMESTAMP'),
+        max: constant('DAY_TIMESTAMP'),
+        step: constant('HOUR_TIMESTAMP'),
+        display_emptychoice: false,
+        toadd: [
+            5 * constant('MINUTE_TIMESTAMP'),
+            15 * constant('MINUTE_TIMESTAMP'),
+            30 * constant('MINUTE_TIMESTAMP'),
+            45 * constant('MINUTE_TIMESTAMP')
+        ]
+    }) }}
+
+    {{ fields.dropdownNumberField('max_items', item.fields['max_items'], __('Number of items displayed')) }}
+    {{ fields.textareaField('comment', item.fields['comment'], __('Comments')) }}
+
+    {% set status_field %}
+        {{ item.fields['have_error'] ? __('Yes') : __('No') }}
+    {% endset %}
+    {{ fields.htmlField('', status_field|e('html'), __('Error retrieving RSS feed')) }}
+{% endblock %}

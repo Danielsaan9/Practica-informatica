@@ -1,0 +1,14 @@
+<div class="col-6">
+    <label
+        class="form-label"
+        for="dropdown_entities_id{{ rand }}"
+    >{{ 'Entity'|itemtype_name }}</label>
+    {{ 'Entity'|itemtype_dropdown(entity_dropdown_options) }}
+</div>
+<div class="col-6">
+    <label
+        class="form-label"
+        for="dropdown_is_recursive{{ rand }}"
+    >{{ __('Child entities') }}</label>
+    {% do call('Dropdown::showYesNo', ['is_recursive', 1, -1, {'rand': rand}]) %}
+</div>

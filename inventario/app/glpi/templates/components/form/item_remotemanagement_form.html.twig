@@ -1,0 +1,35 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% block more_fields %}
+    {% if item.isNewItem() %}
+        <input type="hidden" name="items_id" value="{{ parent_item.getID() }}">
+        <input type="hidden" name="itemtype" value="{{ get_class(parent_item) }}">
+    {% endif %}
+
+    {{ fields.htmlField(
+        '',
+        parent_item.getLink(),
+        _n('Item', 'Items', 1),
+        {'readonly' : true}
+    ) }}
+
+    {{ fields.dropdownYesNo(
+        'is_dynamic',
+        item.fields['is_dynamic']|default(0),
+        __('Automatic inventory'),
+        {'readonly' : true}
+    ) }}
+
+    {{ fields.textField(
+        'remoteid',
+        item.fields['remoteid'],
+        __('Remote ID')
+    ) }}
+
+    {{ fields.dropdownArrayField(
+        'type',
+        item.fields['type'],
+        types,
+        _n('Type', 'Types', 1)
+    ) }}
+{% endblock %}

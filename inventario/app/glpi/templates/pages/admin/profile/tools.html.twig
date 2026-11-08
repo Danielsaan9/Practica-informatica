@@ -1,0 +1,6 @@
+{% extends 'pages/admin/profile/base_tab.html.twig' %}
+
+{% block content %}
+    {{ _self.displayRightsMatrix(item, 'central', 'tools', 'general', __('Tools')) }}
+    {{ _self.displayRightsMatrix(item, 'central', 'tools', 'projects', 'Project'|itemtype_name(get_plural_number())) }}
+{% endblock %}

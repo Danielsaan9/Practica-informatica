@@ -1,0 +1,22 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<div data-glpi-itildestination-field-config-display-condition="{{ CONFIG_SPECIFIC_VALUE }}">
+    {{ fields.dropdownField(
+            specific_value_extra_field.itemtype,
+            specific_value_extra_field.input_name,
+            specific_value_extra_field.value ?? 0,
+            "",
+            options|merge({
+                field_class: '',
+                mb: '',
+                no_label: true,
+                display_emptychoice: true,
+                emptylabel: specific_value_extra_field.empty_label,
+                aria_label: specific_value_extra_field.empty_label,
+                condition: {
+                    is_active: 1,
+                    is_ticketheader: 1
+                }
+            })
+    ) }}
+</div>

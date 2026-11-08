@@ -1,0 +1,30 @@
+{# JS scripts / modules are loaded in the footer in non-anonymous pages #}
+{% set js_files = js_files|merge(get_plugins_js_scripts_files(false)) %}
+{% set js_modules = js_modules|merge(get_plugins_js_modules_files(false)) %}
+
+            </main> {# #page #}
+         </div> {# .page-body #}
+      </div> {# .page-wrapper #}
+   </div> {# .page #}
+
+   {% if config('maintenance_mode') %}
+      <div id="maintenance-float">
+         <a href="{{ path('front/config.form.php?forcetab=Config$5') }}">{{ __('MAINTENANCE MODE') }}</a>
+      </div>
+   {% endif %}
+
+   {% for js_file in js_files %}
+      <script type="text/javascript" src="{{ js_path(js_file.path, js_file.options ?? []) }}"></script>
+   {% endfor %}
+
+   {% for js_file in js_modules %}
+      <script type="module" src="{{ js_path(js_file.path, js_file.options ?? []) }}"></script>
+   {% endfor %}
+
+    {% if debug_info is not null %}
+        {{ include('components/debug/debug_toolbar.html.twig', {
+            debug_info: debug_info,
+        }, with_context = false) }}
+    {% endif %}
+</body>
+</html>

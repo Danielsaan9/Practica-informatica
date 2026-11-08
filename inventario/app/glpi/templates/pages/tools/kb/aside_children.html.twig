@@ -1,0 +1,6 @@
+{#
+ # The children of one aside article, fetched by `AsideArticleChildrenController`
+ # when the reader unfolds it.
+ #}
+{% import "pages/tools/kb/_article_row.html.twig" as macros %}
+{{ macros.render_rows(children, can_create, show_actions) }}

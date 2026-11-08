@@ -1,0 +1,30 @@
+.aa-InputWrapperPrefix {
+   display: none;
+}
+
+.aa-InputWrapperSuffix {
+   display: none;
+}
+
+.aa-Panel {
+   position: absolute; z-index: 1000;
+   background-color: var(--tblr-bg-forms);
+   color: var(--tblr-body-color);
+   max-height: 200px;
+   overflow: auto;
+}
+
+.aa-List {
+   list-style: none;
+   padding-left: 0;
+}
+
+.aa-List .aa-Item {
+   padding: 5px 10px;
+   cursor: pointer;
+}
+
+.aa-Autocomplete .aa-InputWrapper input.aa-Input {
+   color: var(--tblr-body-color) !important;
+   background-color: var(--tblr-bg-forms) !important;
+}

@@ -1,0 +1,12 @@
+{{ call(
+    'Html::popHeader',
+    [
+        object.getTypeName(1),
+        '',
+        true,
+    ]|merge(call([object, 'getSectorizedDetails']))
+) }}
+
+{% do object.showForm(id, form_options) %}
+
+{{ call('Html::popFooter') }}

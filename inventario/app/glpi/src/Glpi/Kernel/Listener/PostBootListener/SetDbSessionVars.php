@@ -1,0 +1,55 @@
+<?php
+
+namespace Glpi\Kernel\Listener\PostBootListener;
+
+use DBConnection;
+use Glpi\Debug\Profiler;
+use Glpi\Kernel\ListenersPriority;
+use Glpi\Kernel\PostBootEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+final class SetDbSessionVars implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PostBootEvent::class => [
+                ['onPostBoot', ListenersPriority::POST_BOOT_LISTENERS_PRIORITIES[self::class]],
+            ],
+        ];
+    }
+
+    public function onPostBoot(): void
+    {
+        global $DB;
+
+        Profiler::getInstance()->start('SetDbSessionVars::execute', Profiler::CATEGORY_BOOT);
+
+        if (DBConnection::isDbAvailable() && $DB->use_timezones) {
+            $timezone = $this->getConfiguredTimezone();
+            $DB->setTimezone($timezone);
+        }
+
+        Profiler::getInstance()->stop('SetDbSessionVars::execute');
+    }
+
+    /**
+     * Get the currently configured timezone.
+     *
+     * The value is fetched from `$_SESSION['glpitimezone']`.
+     * It will contain the value defined by the connected user in its preference,
+     * with a fallback to the value defined by the global GLPI configuration.
+     *
+     * @return string
+     */
+    private function getConfiguredTimezone(): string
+    {
+        $timezone = $_SESSION['glpitimezone'] ?? '0';
+        if ($timezone === '0') {
+            // '0' is for 'Use server configuration'
+            return date_default_timezone_get();
+        }
+
+        return $timezone;
+    }
+}

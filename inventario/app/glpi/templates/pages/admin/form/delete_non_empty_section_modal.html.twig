@@ -1,0 +1,47 @@
+{# Delete non-empty section confirmation modal #}
+<div
+    data-glpi-form-editor-delete-non-empty-section-modal
+    class="modal modal-blur fade"
+    aria-modal="true"
+    role="dialog"
+    aria-label="{{ __("Delete non-empty section") }}"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-3">
+                <div>
+                    <h3 class="mb-2">{{ __("This section contains elements") }}</h3>
+                    <p
+                        class="m-0 text-muted"
+                        data-glpi-form-editor-delete-section-message
+                        data-testid="delete-section-message"
+                    >
+                        {# Message will be populated dynamically by JavaScript #}
+                    </p>
+                </div>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{{ __("Close") }}"
+                ></button>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-link"
+                    data-bs-dismiss="modal"
+                >
+                    {{ __("Cancel") }}
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-glpi-form-editor-confirm-delete-section
+                >
+                    {{ __("Delete section and all its elements") }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

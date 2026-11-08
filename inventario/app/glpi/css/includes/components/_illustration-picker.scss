@@ -1,0 +1,29 @@
+.illustration-selector {
+    border-color: var(--tblr-border-color);
+    box-shadow: var(--tblr-box-shadow-input) !important;
+    border-radius: 5px !important; // Must match border radius used for tinymce
+
+    &:hover {
+        border-color: var(--tblr-secondary);
+        cursor: pointer;
+    }
+
+    transition: border-color 0.3s;
+}
+
+.illustration-selector-extra-margin {
+    padding-bottom: 10px;
+}
+
+:where(button.illustration-picker-btn, button.illustration-picker-tile) {
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: stretch;
+    align-items: normal;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    text-align: inherit;
+}

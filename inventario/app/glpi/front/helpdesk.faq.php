@@ -1,0 +1,62 @@
+<?php
+
+require_once(__DIR__ . '/_check_webserver_config.php');
+
+use Glpi\Application\View\TemplateRenderer;
+use Glpi\Exception\Http\AccessDeniedHttpException;
+use Glpi\Exception\Http\NotFoundHttpException;
+
+global $CFG_GLPI;
+
+// Redirect management
+if (isset($_GET["redirect"])) {
+    Toolbox::manageRedirect($_GET["redirect"]);
+}
+
+// The FAQ opens on the root article, as `front/knowbaseitem.php` does.
+if (!isset($_GET["id"])) {
+    if (!KnowbaseItem::hasRoot()) {
+        throw new NotFoundHttpException();
+    }
+    $root_id = KnowbaseItem::getRootId();
+    $root    = new KnowbaseItem();
+    if (!$root->getFromDB($root_id)) {
+        throw new NotFoundHttpException();
+    }
+    if (!$root->can($root_id, READ)) {
+        throw new AccessDeniedHttpException();
+    }
+    // Not getFormURLWithID(): it leaves the helpdesk in a central session.
+    Html::redirect($CFG_GLPI['root_doc'] . '/front/helpdesk.faq.php?id=' . $root_id);
+}
+
+// Checked before any output so the error page can be rendered.
+$id = (int) $_GET["id"];
+$kb = new KnowbaseItem();
+if (!$kb->getFromDB($id)) {
+    throw new NotFoundHttpException();
+}
+if (!$kb->can($id, READ)) {
+    // An anonymous visitor must not tell a private article from a missing one.
+    throw Session::getLoginUserID() === false ? new NotFoundHttpException() : new AccessDeniedHttpException();
+}
+
+if (Session::getLoginUserID()) {
+    Html::helpHeader(__('FAQ'), 'faq');
+} else {
+    $_SESSION["glpilanguage"] = $_SESSION['glpilanguage'] ?? Session::getPreferredLanguage();
+    // Anonymous FAQ
+    Html::simpleHeader(__('FAQ'), [
+        __('Authentication') => '/',
+        __('FAQ')            => '/front/helpdesk.faq.php',
+    ]);
+}
+
+// Same two-column layout as the central knowledge base (see CommonGLPI::display()).
+echo TemplateRenderer::getInstance()->render('pages/tools/kb/faq_article.html.twig', [
+    'aside'   => $kb->getAsideContent(),
+    'slug'    => Toolbox::slugify(KnowbaseItem::class),
+    'article' => $kb->showFull(['display' => false]),
+]);
+
+Html::helpFooter();

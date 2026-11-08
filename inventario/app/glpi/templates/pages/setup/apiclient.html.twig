@@ -1,0 +1,60 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% set params  = params ?? [] %}
+
+{% block more_fields %}
+    {{ fields.dropdownArrayField(
+        'dolog_method',
+        item.fields['dolog_method'],
+        log_methods,
+        __('Log connections')
+    ) }}
+
+    <div class="hr-text">
+        <i class="ti ti-filter" aria-hidden="true"></i>
+        <span>{{ __('Filter access') }}</span>
+    </div>
+    <p><em>{{ __('Leave these parameters empty to disable API access restriction') }}</em></p>
+
+
+    {{ fields.textField(
+        'ipv4_range_start',
+        item.fields['ipv4_range_start'] is not empty ? item.fields['ipv4_range_start']|long2ip : '',
+        __('IPv4 address range start')
+    ) }}
+
+    {{ fields.textField(
+        'ipv4_range_end',
+        item.fields['ipv4_range_end'] is not empty ? item.fields['ipv4_range_end']|long2ip : '',
+        __('IPv4 address range end')
+    ) }}
+
+    {{ fields.textField(
+        'ipv6',
+        item.fields['ipv6'],
+        __('IPv6 address')
+    ) }}
+
+    {% set reset_btn %}
+        {{ fields.checkboxField(
+            '_reset_app_token',
+            item.isNewItem() ? 1 : 0,
+            __('Regenerate'),
+            {
+                'full_width': true
+            }
+        ) }}
+    {% endset %}
+
+    {{ fields.passwordField(
+        'app_token',
+        item.fields['app_token']|decrypt,
+        __('%1$s (%2$s)')|format(__('Application token'), 'app_token'),
+        {
+            'add_field_html': reset_btn,
+            'is_disclosable': true,
+            'clearable': false,
+        }
+    ) }}
+
+{% endblock %}

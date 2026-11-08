@@ -1,0 +1,14 @@
+{% set interface = get_current_interface() %}
+{% set header_method = interface == 'central' ? 'header' : 'helpHeader' %}
+
+{% do call(['Html', header_method], {
+    title: title,
+    sector: menu[0] ?? 'none',
+    item  : menu[1] ?? 'none',
+    option: menu[2] ?? '',
+}) %}
+
+{% block content %}
+{% endblock content %}
+
+{% do call(['Html', 'footer']) %}

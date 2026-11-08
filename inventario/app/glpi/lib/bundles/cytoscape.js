@@ -1,0 +1,7 @@
+// Cytoscape.js lib
+window.cytoscape = require('cytoscape');
+require('cytoscape-context-menus');
+require('cytoscape-context-menus/cytoscape-context-menus.css');
+require('cytoscape-grid-guide');
+require('cytoscape-dagre');
+require('cytoscape-canvas');

@@ -1,0 +1,13 @@
+{% set manager = call('Glpi\\Altcha\\AltchaManager::getInstance') %}
+
+{% if manager.isEnabled() %}
+    <altcha-widget
+        challenge="{{ path('/Altcha/Challenge') }}"
+        {% if manager.shouldStartWidgetOnLoad() %}
+            auto="onload"
+        {% endif %}
+        {% if manager.shouldHideWidget() %}
+            class="d-none"
+        {% endif %}
+    ></altcha-widget>
+{% endif %}

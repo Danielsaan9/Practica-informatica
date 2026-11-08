@@ -1,0 +1,25 @@
+{% extends 'generic_show_form.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+    {{ fields.textField('name', item.fields['name'], __('Name')) }}
+    {{ fields.dropdownField('BudgetType', 'budgettypes_id', item.fields['budgettypes_id'], _n('Type', 'Types', 1)) }}
+
+    {{ fields.numberField('value', item.fields['value'], __('Value'), {
+        min: 0,
+        max: constant('PHP_INT_MAX'),
+        step: 0.0001
+    }) }}
+    {{ fields.textareaField('comment', item.fields['comment'], __('Comments')) }}
+
+    {{ fields.dateField('begin_date', item.fields['begin_date'], __('Begin date'), {
+        clearable: true
+    }) }}
+    {{ fields.dateField('end_date', item.fields['end_date'], __('End date'), {
+        clearable: true
+    }) }}
+
+    {{ fields.dropdownField('Location', 'locations_id', item.fields['locations_id'], 'Location'|itemtype_name, {
+        entity: item.fields['entities_id'],
+    }) }}
+{% endblock %}

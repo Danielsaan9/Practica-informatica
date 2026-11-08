@@ -1,0 +1,29 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+    {{ fields.textField('name', item.fields['name'], __('Name'), {
+        full_width: true,
+    }) }}
+    {{ fields.dropdownItemTypes('itemtypes', null, _n('Type', 'Types', get_plural_number()), {
+        types: config('link_types'),
+        multiple: true,
+        values: item.getLinkedItemtypes,
+        full_width: true,
+    }) }}
+    {{ fields.codeField('link', item.fields['link'], __('Link or filename'), {
+        single_line: true,
+        language: 'twig',
+        completions: tag_options|default([]),
+        full_width: true,
+    }) }}
+    {{ fields.dropdownYesNo('open_window', item.fields['open_window'], __('Open in a new window'), {
+        full_width: true,
+    }) }}
+    {{ fields.codeField('data', item.fields['data'], __('File content'), {
+        language: 'twig',
+        completions: tag_options|default([]),
+        full_width: true,
+        height: '300px'
+    }) }}
+{% endblock %}

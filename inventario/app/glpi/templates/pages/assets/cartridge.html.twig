@@ -1,0 +1,29 @@
+{% extends 'generic_show_form.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+    <input type="hidden" name="printers_id" value="{{ printer.getID() }}"/>
+    <input type="hidden" name="cartridgeitems_id" value="{{ item.fields['cartridgeitems_id'] }}"/>
+    {{ fields.htmlField('', printer.getLink(), 'Printer'|itemtype_name) }}
+    {{ fields.htmlField('', model.getLink(), _n('Cartridge model', 'Cartridge models', 1)) }}
+
+    {{ fields.htmlField('', item.fields['date_in']|formatted_date|e, __('Add date')) }}
+    {% if item.fields['date_use'] is not empty and item.fields['date_out'] is empty %}
+        {{ fields.dateField('date_use', item.fields['date_use'], __('Use date'), {
+            maybeempty: false,
+            canedit: true,
+            min: item.fields['date_in'],
+        }) }}
+    {% else %}
+        {{ fields.htmlField('', item.fields['date_use']|formatted_date|e, __('Use date')) }}
+    {% endif %}
+
+    {% if item.fields['date_out'] is not empty %}
+        {{ fields.dateField('date_out', item.fields['date_out'], __('End date'), {
+            maybeempty: false,
+            canedit: true,
+            min: item.fields['date_use'],
+        }) }}
+        {{ fields.numberField('pages', item.fields['pages'], __('Printer counter')) }}
+    {% endif %}
+{% endblock %}

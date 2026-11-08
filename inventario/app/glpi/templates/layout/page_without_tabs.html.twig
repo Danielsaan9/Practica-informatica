@@ -1,0 +1,18 @@
+{% extends "layout/page_skeleton.html.twig" %}
+
+{% block content %}
+    {% set title_content %}{% block content_title %}{% endblock content_title %}{% endset %}
+    <div class="page-header mt-0">
+        <div class="container container-{{ container_size ?? "xl" }}">
+            {% if title_content|trim is not empty %}
+                <h1 class="page-title mb-0">{{ title_content }}</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="page-body mt-3">
+        <div class="container container-{{ container_size ?? "xl" }}">
+            {% block content_body %}
+            {% endblock content_body %}
+        </div>
+    </div>
+{% endblock content %}

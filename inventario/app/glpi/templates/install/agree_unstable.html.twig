@@ -1,0 +1,26 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<div class="alert alert-warning">
+   <strong>
+      {% if is_dev %}
+         {{ __('You are using a development version, be careful!') }}
+      {% else %}
+         {{ __('You are using a pre-release version, be careful!') }}
+      {% endif %}
+   </strong>
+   <br>
+   {{ fields.checkboxField('agree_unstable', 0, __('I know I am using a unstable version.'), {
+      required: true,
+      id: 'agree_unstable'
+   }) }}
+</div>
+<script>
+   $(function() {
+       $('[name="continue"]').on('click', function(event){
+           if (!$('#agree_unstable').is(':checked')) {
+               event.preventDefault();
+               alert('{{ __('Please check the unstable version checkbox.') }}');
+           }
+       });
+   });
+</script>

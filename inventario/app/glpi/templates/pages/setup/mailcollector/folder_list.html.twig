@@ -1,0 +1,25 @@
+{% macro display_folder(folder, input_id) %}
+   <li class="cursor-pointer" data-input-id="{{ input_id }}">
+      <i class="ti ti-folder" aria-hidden="true"></i>
+      <span class="folder-name" data-globalname="{{ folder['global_name'] }}">{{ folder['local_name'] }}</span>
+      <ul>
+         {% for subfolder in folder['children'] %}
+            {{ _self.display_folder(subfolder, input_id) }}
+         {% endfor %}
+      </ul>
+   </li>
+{% endmacro %}
+
+{% if connected %}
+   <ul class="select_folder">
+      {% set has_folders = folders|length > 0 %}
+      {% for folder in folders %}
+         {{ _self.display_folder(folder, input_id) }}
+      {% endfor %}
+      {% if not has_folders and item.fields['server_mailbox'] is not empty %}
+         <li>{{ __("No child found for folder '%s'.")|format(item.fields['server_mailbox']) }}</li>
+      {% endif %}
+   </ul>
+{% else %}
+   <div class="alert alert-danger">{{ __('An error occurred trying to connect to collector.') }}</div>
+{% endif %}

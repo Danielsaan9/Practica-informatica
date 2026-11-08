@@ -1,0 +1,88 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% set params  = params ?? [] %}
+
+{# TODO Fields can be consolidated more. They currently match the old display. #}
+{% block form_fields %}
+   {% block more_fields %}
+      {{ fields.autoNameField(
+         'phonenumber',
+         item,
+         'Phone'|itemtype_name,
+      ) }}
+
+      {{ fields.autoNameField(
+         'registration_number',
+         item,
+         _x('infocom', 'Administrative number'),
+      ) }}
+
+      {{ fields.autoNameField(
+         'fax',
+         item,
+         __('Fax'),
+      ) }}
+      {{ fields.nullField() }}
+
+      {{ fields.autoNameField(
+         'website',
+         item,
+         __('Website'),
+      ) }}
+      {{ fields.nullField() }}
+
+      {{ fields.autoNameField(
+         'email',
+         item,
+         _n('Email', 'Emails', 1),
+      ) }}
+      {{ fields.nullField() }}
+
+      {{ fields.autoNameField(
+         'postcode',
+         item,
+         __('Postal code'),
+      ) }}
+
+      {{ fields.textareaField('address', item.fields['address'], __('Address')) }}
+
+      {{ fields.autoNameField(
+         'town',
+         item,
+         __('City'),
+      ) }}
+      {{ fields.nullField() }}
+
+      {{ fields.autoNameField(
+         'state',
+         item,
+         _x('location', 'State'),
+      ) }}
+      {{ fields.nullField() }}
+
+      {{ fields.autoNameField(
+         'country',
+         item,
+         __('Country'),
+      ) }}
+      {{ fields.nullField() }}
+
+      {% set setlocation %}
+         {{ item.displaySpecificTypeField(item.fields['id'], {
+            name: 'setlocation',
+            type: 'setlocation',
+            label: '',
+            list: false
+         }) }}
+      {% endset %}
+      {{ fields.htmlField('setlocation', setlocation, __('Location on map')) }}
+      {{ fields.nullField() }}
+
+      {{ fields.textField('longitude', item.fields['longitude'], _x('location', 'Longitude')) }}
+      {{ fields.nullField() }}
+      {{ fields.textField('latitude', item.fields['latitude'], _x('location', 'Latitude')) }}
+      {{ fields.nullField() }}
+      {{ fields.textField('altitude', item.fields['altitude'], _x('location', 'Altitude')) }}
+      {{ fields.nullField() }}
+   {% endblock %}
+{% endblock %}

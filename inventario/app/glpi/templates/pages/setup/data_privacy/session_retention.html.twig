@@ -1,0 +1,23 @@
+{% extends "pages/setup/general/base_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block config_fields %}
+   {{ fields.largeTitle(__('Login session data retention'), 'ti ti-user-shield') }}
+
+    {{ fields.dropdownNumberField('login_history_retention_days', config['login_history_retention_days'], __('Retention period (days)'), {
+        min: 0,
+        max: 365,
+    }) }}
+
+    {% set crontask_config %}
+        {% if crontask.fields['state'] == 0 %}
+            <span class="badge bg-danger text-danger-fg">{{ __('Disabled') }}</span>
+        {% else %}
+            <span class="badge bg-success text-success-fg">{{ __('Enabled') }}</span>
+        {% endif %}
+        <a href="{{ crontask.getFormURLWithID(crontask.getID()) }}">
+            {{ __('Configure automatic action') }}
+        </a>
+    {% endset %}
+    {{ fields.htmlField('', crontask_config, 'CronTask'|itemtype_name) }}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{{ fields.dropdownYesNo(
+    'tree',
+    tree,
+    __('Show child groups objects'),
+    {
+        'on_change': 'reloadTab("start=0&tree="+this.value)'
+    }
+) }}

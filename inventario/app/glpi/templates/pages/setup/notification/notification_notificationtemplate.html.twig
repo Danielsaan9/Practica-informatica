@@ -1,0 +1,20 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+
+{% block form_fields %}
+	{{ inputs.hidden('notifications_id', notification.fields['id']) }}
+   {{ fields.htmlField('', notification_link, 'Notification'|itemtype_name) }}
+   {{ fields.nullField() }}
+   {{ fields.htmlField('', call('Notification_NotificationTemplate::dropdownMode', [{
+      name: 'mode',
+      value: item.fields['mode'],
+      display: false
+   }]), __('Mode')) }}
+   {{ fields.dropdownField('NotificationTemplate', 'notificationtemplates_id', item.fields['notificationtemplates_id'], 'NotificationTemplate'|itemtype_name, {
+      comment: 1,
+      condition: {
+         'itemtype': notification.fields['itemtype'],
+      }
+   }) }}
+{% endblock %}

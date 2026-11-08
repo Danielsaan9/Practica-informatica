@@ -1,0 +1,38 @@
+{% import 'components/form/modals_macros.html.twig' as modals %}
+
+{% if rights is not defined %}
+   {% set rights = {
+      'create_item': false,
+      'delete_item': false,
+      'create_column': false,
+      'modify_view': false,
+      'order_card': false,
+      'create_card_limited_columns': [0],
+   } %}
+{% endif %}
+
+<div id="kanban-app"></div>
+{{ modals.modal('', '', {
+   'id': 'kanban-modal'
+}) }}
+
+{% for supported_itemtype, info in supported_itemtypes %}
+   <template id="kanban-teammember-item-dropdown-{{ supported_itemtype }}">
+   </template>
+{% endfor %}
+
+<script>
+   $(function(){
+      // Create Kanban
+      window.Vue.createApp(window.Vue.components['Kanban/KanbanApp'].component, {
+          element_id: '{{ kanban_id|default('kanban') }}',
+          rights: {{ rights|json_encode|raw }},
+          supported_itemtypes: {{ supported_itemtypes|json_encode|raw }},
+          column_field: {{ column_field|json_encode|raw }},
+          background_refresh_interval: {{ background_refresh_interval|default(session('glpirefresh_views')) }},
+          item: {{ item|json_encode|raw }},
+          supported_filters: {{ supported_filters|json_encode|raw }},
+          display_initials: {{ entity_config('display_users_initials', session('glpiactive_entity')) ? 'true' : 'false' }},
+      }).mount('#kanban-app');
+   });
+</script>

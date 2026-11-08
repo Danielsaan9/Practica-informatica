@@ -1,0 +1,44 @@
+.itilstatus,
+.validationstatus {
+    --status-color: inherit;
+
+    color: var(--status-color);
+
+    &.assigned,
+    &.new {
+        --status-color: #49bf4d;
+    }
+
+    &.accepted {
+        --status-color: green;
+    }
+
+    &.refused {
+        --status-color: rgb(167, 47, 0);
+    }
+
+    &.test,
+    &.qualif,
+    &.waiting {
+        --status-color: orange;
+    }
+
+    &.approval {
+        --status-color: #8cabdb;
+    }
+
+    &.eval {
+        --status-color: lightblue;
+    }
+
+    &.closed,
+    &.solved,
+    &.observe,
+    &.canceled {
+        --status-color: black;
+    }
+
+    &.planned {
+        --status-color: #1b2f62;
+    }
+}

@@ -1,0 +1,30 @@
+{% set rand = random() %}
+
+<div class="dropdown" data-glpi-form-editor-question-extra-details>
+    <button
+        id="dropdownMenuButton{{ rand }}"
+        class="btn btn-icon h-full rounded-start-0"
+        type="button"
+        data-bs-toggle="dropdown" data-bs-auto-close="outside"
+        aria-expanded="false"
+        title="{{ __('Advanced configuration') }}"
+        aria-label="{{ __('Advanced configuration') }}"
+    >
+        <i class="ti ti-settings" aria-hidden="true"></i>
+    </button>
+    <div
+        style="width: 32rem"
+        class="dropdown-menu dropdown-menu-card animate__animated animate__zoomIn"
+        role="menu"
+        aria-labelledby="dropdownMenuButton{{ rand }}"
+        data-glpi-form-editor-advanced-question-configuration
+    >
+        <div class="card">
+            <div class="card-body">
+                {% block dropdown_content %}
+                {# Child templates will override this block with specific dropdown content #}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>

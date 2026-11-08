@@ -1,0 +1,28 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+
+    <h3 class="card-title">
+        {{ __('Modify the comment') }}
+    </h3>
+
+    {{ fields.htmlField(
+        '',
+        type_name|e,
+        _n('Item', 'Items', 1)
+    ) }}
+
+    {{ fields.textareaField(
+        'comment',
+        item.fields.comment,
+        __("Comments"),
+        {
+            'enable_richtext'   : true,
+            'enable_fileupload' : false,
+            'cols'              : 30,
+            'rows'              : 10
+        }
+    ) }}
+
+{% endblock %}

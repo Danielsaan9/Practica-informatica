@@ -1,0 +1,160 @@
+<?php
+
+use Glpi\DBAL\QueryExpression;
+use Glpi\DBAL\QueryFunction;
+use Glpi\DBAL\QueryIdentifier;
+
+/**
+ *  NotificationAjax
+ **/
+class NotificationAjax implements NotificationInterface
+{
+    /**
+     * Check data
+     *
+     * @param mixed $value   The data to check (may differ for every notification mode)
+     * @param array $options Optional special options (may be needed)
+     *
+     * @return bool
+     **/
+    public static function check($value, $options = [])
+    {
+        //waiting for a user ID
+        $value = (int) $value;
+        return $value > 0;
+    }
+
+    public static function testNotification()
+    {
+        $instance = new self();
+        return $instance->sendNotification([
+            '_itemtype'                   => 'NotificationAjax',
+            '_items_id'                   => 1,
+            '_notificationtemplates_id'   => 0,
+            '_entities_id'                => 0,
+            'fromname'                    => 'TEST',
+            'subject'                     => 'Test notification',
+            'content_text'                => "Hello, this is a test notification.",
+            'to'                          => Session::getLoginUserID(),
+            'event'                       => 'test_notification',
+        ]);
+    }
+
+    #[Override]
+    public function sendNotification($options = [])
+    {
+        $data = [];
+        $data['itemtype']                             = $options['_itemtype'];
+        $data['items_id']                             = $options['_items_id'];
+        $data['notificationtemplates_id']             = $options['_notificationtemplates_id'];
+        $data['entities_id']                          = $options['_entities_id'];
+        $data['sendername']                           = $options['fromname'];
+        $data['name']                                 = $options['subject'];
+        $data['body_text']                            = $options['content_text'];
+        $data['recipient']                            = $options['to'];
+        $data['event'] = $options['event'] ?? null; // `event` has been added in GLPI 10.0.7
+        $data['mode'] = Notification_NotificationTemplate::MODE_AJAX;
+
+        $queue = new QueuedNotification();
+
+        if (!$queue->add($data)) {
+            Session::addMessageAfterRedirect(__s('Error inserting browser notification to queue'), true, ERROR);
+            return false;
+        } else {
+            //TRANS to be written in logs %1$s is the to email / %2$s is the subject of the mail
+            Toolbox::logInFile(
+                "notification",
+                sprintf(
+                    __('%1$s: %2$s'),
+                    sprintf(
+                        __('A browser notification to %s was added to queue'),
+                        $options['to']
+                    ),
+                    $options['subject'] . "\n"
+                )
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * Get users own notifications
+     *
+     * @return array|false
+     */
+    public static function getMyNotifications()
+    {
+        global $CFG_GLPI, $DB;
+
+        $return = [];
+        if ($CFG_GLPI['notifications_ajax']) {
+            $secs = $CFG_GLPI["notifications_ajax_expiration_delay"] * DAY_TIMESTAMP;
+            $iterator = $DB->request([
+                'FROM'   => 'glpi_queuednotifications',
+                'WHERE'  => [
+                    'is_deleted'   => false,
+                    'recipient'    => Session::getLoginUserID(),
+                    'mode'         => Notification_NotificationTemplate::MODE_AJAX,
+                    new QueryExpression(
+                        QueryFunction::unixTimestamp(new QueryIdentifier('send_time')) . ' + ' . $secs
+                            . ' > ' . QueryFunction::unixTimestamp()
+                    ),
+                ],
+            ]);
+
+            if ($iterator->numrows()) {
+                foreach ($iterator as $row) {
+                    if ((bool) $row['is_body_encrypted']) {
+                        $glpi_key = new GLPIKey();
+                        $row['body_text'] = $glpi_key->decrypt($row['body_text']);
+                    }
+
+                    $url = null;
+                    if (is_a($row['itemtype'], CommonGLPI::class, true)) {
+                        $item = new $row['itemtype']();
+                        $url = $item->getFormURLWithID($row['items_id'], true);
+                    }
+
+                    $return[] = [
+                        'id'     => $row['id'],
+                        'title'  => $row['name'],
+                        'body'   => $row['body_text'],
+                        'url'    => $url,
+                    ];
+                }
+            }
+        }
+
+        if (count($return)) {
+            return $return;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Mark raised notification as deleted
+     *
+     * @param int $id Notification id
+     *
+     * @return void
+     */
+    public static function raisedNotification($id)
+    {
+        global $DB;
+
+        $now = date('Y-m-d H:i:s');
+        $DB->update(
+            'glpi_queuednotifications',
+            [
+                'sent_time'    => $now,
+                'is_deleted'   => 1,
+            ],
+            [
+                'id'        => $id,
+                'recipient' => Session::getLoginUserID(),
+            ]
+        );
+    }
+}

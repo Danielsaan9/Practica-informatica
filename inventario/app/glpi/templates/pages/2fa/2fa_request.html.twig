@@ -1,0 +1,22 @@
+{% import 'pages/2fa/macros.html.twig' as tfa %}
+
+{% extends 'layout/page_card_notlogged.html.twig' %}
+
+{% block header_block %}
+   <span class="card-title">{{ __('Please enter the code from your authenticator app') }}</span>
+{% endblock %}
+
+{% block content_block %}
+   <form method="post" action="{{ path(action, {"redirect": redirect}) }}" data-submit-once autocomplete="off" class="m-md-n4" data-code-type="code">
+      <div>
+         <twig:Mfa:CodeInput />
+      </div>
+      <div class="border-top mt-2 pt-2 mx-n2 d-flex">
+         <div class="ms-auto pe-2">
+            {{ tfa.tfa_backup_code_toggle(true) }}
+            <button type="submit" formnovalidate name="totp_cancel" class="btn btn-outline-secondary">{{ __('Cancel') }}</button>
+            <button type="submit" formnovalidate name="continue" class="btn btn-primary ms-1">{{ __('Verify') }}</button>
+         </div>
+      </div>
+   </form>
+{% endblock %}

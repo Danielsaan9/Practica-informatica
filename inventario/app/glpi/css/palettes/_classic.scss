@@ -1,0 +1,19 @@
+:root[data-glpi-theme="classic"] {
+    --tblr-primary-rgb: 242, 178, 101;
+    --tblr-primary-fg: #8f5a0a;
+    --tblr-secondary: #888373;
+    --tblr-secondary-fg: #8f5a0a;
+    --tblr-link-color-rgb: 101, 153, 0;
+    --glpi-mainmenu-bg: #98a458; // hsl(69°, 30%, 49%)
+    --glpi-helpdesk-header: hsl(70deg, 26%, 85%);
+    --glpi-mainmenu-fg: #000;
+    --glpi-palette-color-1: #E1D39E;
+    --glpi-palette-color-2: #877C52;
+    --glpi-palette-color-3: #C0CC7B;
+    --glpi-palette-color-4: #FEC95C;
+
+    // Helpdesk header
+    --glpi-illustrations-gradient-1: hsl(69deg, 26%, 92%);
+    --glpi-illustrations-gradient-2: hsl(69deg, 26%, 62%);
+    --glpi-illustrations-gradient-3: hsl(69deg, 26%, 45%);
+}

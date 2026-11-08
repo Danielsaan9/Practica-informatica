@@ -1,0 +1,29 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<form method="get" name="form" action="stat.global.php">
+    <input type="hidden" name="itemtype" value="{{ itemtype }}">
+
+    <div class="card mx-auto" style="width: 845px;">
+        <div class="card-body">
+
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    {{ fields.dateField(
+                        'date1',
+                        date1,
+                        __('Start date')
+                    ) }}
+
+                    {{ fields.dateField(
+                        'date2',
+                        date2,
+                        __('End date')
+                    ) }}
+                </div>
+
+                <input type="submit" class="btn btn-primary"
+                       value="{{ __('Display report') }}">
+            </div>
+        </div>
+    </div>
+</form>

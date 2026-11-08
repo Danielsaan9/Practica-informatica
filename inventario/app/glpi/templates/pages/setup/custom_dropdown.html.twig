@@ -1,0 +1,12 @@
+{% extends "dropdown_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% set params  = params ?? [] %}
+
+{% block more_fields %}
+    {% if item.isNewItem() %}
+        {{ fields.hiddenField(
+            'Glpi\\Dropdown\\DropdownDefinition'|itemtype_foreign_key,
+            item.getDefinition().getID(),
+        ) }}
+    {% endif %}
+{% endblock %}

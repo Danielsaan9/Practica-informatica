@@ -1,0 +1,31 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<form data-glpi-kb-move-form data-glpi-kb-move-article-id="{{ id }}">
+    <input type="hidden" name="from_parent_id" value="{{ from_parent_id }}">
+
+    {{ fields.dropdownArrayField(
+        'to_parent_id',
+        selected_id,
+        candidates,
+        __('New parent'),
+        {
+            'is_horizontal': false,
+            'full_width': true,
+        }
+    ) }}
+
+    <div class="d-flex mt-3">
+        <button
+            class="btn btn-ghost-secondary ms-auto me-2"
+            type="button"
+            data-bs-dismiss="modal"
+        >{{ __('Cancel') }}</button>
+        {# Enabled by MoveModalController.js once the selection actually changes. #}
+        <button
+            type="submit"
+            class="btn btn-primary"
+            data-glpi-kb-move-submit
+            disabled
+        >{{ __('Move') }}</button>
+    </div>
+</form>

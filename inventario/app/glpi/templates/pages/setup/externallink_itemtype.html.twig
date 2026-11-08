@@ -1,0 +1,18 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+
+<form class="d-flex mb-3" method="post" action="{{ 'Link_Itemtype'|itemtype_form_path }}" data-submit-once>
+    {{ inputs.hidden('links_id', links_id) }}
+    {{ fields.dropdownItemTypes('itemtype', null, __('Add an item type'), {
+        types: config('link_types'),
+        used: used,
+    }) }}
+    {% set btn %}
+        {{ inputs.submit('add', _x('button', 'Add'), '1') }}
+    {% endset %}
+    {{ fields.htmlField('', btn, null, {
+        wrapper_class: 'd-flex ms-2',
+        no_label: true,
+        mb: 'mb-2'
+    }) }}
+</form>

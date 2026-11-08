@@ -1,0 +1,46 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<div class="card border-0 shadow-none p-0 m-0 mt-3">
+    <div class="card-header mb-1 pt-2">
+        <h4 class="card-title ">
+            {{ validation.getTypeName(2) }}
+        </h4>
+    </div>
+</div>
+
+{{ fields.htmlField(
+    '',
+    validation.getStatus(item.fields["global_validation"], true),
+    __('Global approval status')
+) }}
+
+<div class="card border-0 shadow-none p-0 m-0 mt-3">
+    <div class="card-header mb-3 pt-2">
+        <h4 class="card-title ">
+            {{ __('Approvals') }}
+        </h4>
+    </div>
+    {% if canadd %}
+        {% if item.fields['status'] not in donestatus %}
+            <div class="card-body mb-3 p-0 text-center">
+                <a class='btn btn-primary' role="button" href='javascript:viewAddValidation{{ tID }}{{ rand }}()'>
+                    {{ __('Send an approval request') }}
+                </a>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div id="viewvalidation{{ tID }}{{ rand }}"></div>
+
+<script>
+    function viewAddValidation{{ tID }}{{ rand }}() {
+        var params = {
+            type: '{{ get_class(validation)|e('js') }}',
+            parenttype: '{{ itemtype|e('js') }}',
+            {{ items_id }}: '{{ validation.fields[items_id]|e('js') }}',
+            id: -1
+        };
+        $('#viewvalidation{{ tID }}{{ rand }}').load('{{ config('root_doc')|e('js') }}/ajax/viewsubitem.php', params);
+    };
+</script>

@@ -1,0 +1,38 @@
+{% extends "pages/setup/general/base_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% set field_options = {
+    'full_width': true,
+    'rand': rand|default(random())
+} %}
+
+{% block config_fields %}
+    {{ fields.largeTitle(__('Two-factor authentication (2FA)'), 'ti ti-2fa') }}
+    {{ fields.textField(
+        '2fa_suffix',
+        config['2fa_suffix'],
+        __('2FA Suffix'),
+        field_options|merge({
+            helper: __("This will be added in the issuer name for authenticator app."),
+        })
+    ) }}
+
+    {{ fields.sliderField(
+        '2fa_enforced',
+        config['2fa_enforced'],
+        __('Enforce 2FA'),
+        field_options
+    ) }}
+
+    {% if config['2fa_enforced'] %}
+        {{ fields.numberField(
+            '2fa_grace_days',
+            config['2fa_grace_days'],
+            __('2FA grace period (in days)'),
+            field_options|merge({
+                'min': 0,
+                'max': 365,
+            })
+        ) }}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+
+{% set rand = random() %}
+
+<form method="post" action="{{ 'User'|itemtype_form_path }}">
+   {{ inputs.hidden('id', user.getID) }}
+
+   {% if user.fields['authtype'] in [constant('Auth::LDAP')] %}
+      {{ inputs.submit('force_ldap_resynch', __('Force synchronization'), 1, {
+         icon: 'ti ti-refresh'
+      }) }}
+      {{ inputs.submit('clean_ldap_fields', __('Clean LDAP fields and force synchronisation'), 1, {
+         icon: 'ti ti-recycle'
+      }) }}
+   {% endif %}
+   {{ fields.htmlField('', call('Auth::dropdown', [{
+      'name': 'authtype',
+      'rand': rand,
+      'display': false
+   }]), __('Change of the authentication method'), {
+      is_horizontal: false
+   }) }}
+   {% do call('Ajax::updateItemOnSelectEvent', ['dropdown_authtype' ~ rand, 'show_massiveaction_field', path('/ajax/dropdownMassiveActionAuthMethods.php'), {
+      authtype: '__VALUE__',
+      name: 'change_auth_method'
+   }]) %}
+   <span id="show_massiveaction_field"></span>
+</form>

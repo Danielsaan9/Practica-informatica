@@ -1,0 +1,19 @@
+<div class="container text-center license-container">
+    <textarea id="license" style="height:250px" readonly="readonly" class="form-control">{{ copying }}</textarea>
+
+    <p>
+        <a class="btn btn-sm btn-info" target="_blank" href="https://www.gnu.org/licenses/translations.html">
+            <i class="ti ti-external-link me-1" aria-hidden="true"></i>
+            {{ __("Unofficial translations are also available") }}
+        </a>
+    </p>
+
+    <form action="install.php" method="post" data-submit-once>
+        <input type="hidden" name="install" value="License" />
+
+        <button type="submit" name="submit" class="btn btn-primary">
+            {{ __("Continue") }}
+            <i class="ti ti-chevron-right ms-1" aria-hidden="true"></i>
+        </button>
+    </form>
+</div>

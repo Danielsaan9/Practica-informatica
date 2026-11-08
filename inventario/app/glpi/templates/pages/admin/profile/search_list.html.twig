@@ -1,0 +1,34 @@
+{% extends 'pages/admin/profile/base_tab.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block content %}
+    {% for data in itemtypes_data %}
+        {{ fields.smallTitle(data.label) }}
+
+        {% set field_name = 'excluded_searchoptions[' ~ data.key ~ ']' %}
+        {% set current_values = item.fields['excluded_searchoptions'][data.key] ?? [] %}
+        {% set excluded_field %}
+            {% do call('Dropdown::showFromArray', [field_name, data.options|merge({}), {
+                values: current_values,
+                multiple: true,
+                width: '100%',
+                rand: random(),
+            }]) %}
+        {% endset %}
+        {{ fields.htmlField(
+            field_name,
+            excluded_field,
+            __('Hidden fields in search and column selection'),
+            {full_width: true}
+        ) }}
+    {% endfor %}
+
+    {{ fields.smallTitle(__('Map')) }}
+
+    {{ fields.checkboxField(
+        'show_map',
+        item.fields['show_map'],
+        __('Show map button in lists'),
+        {full_width: true}
+    ) }}
+{% endblock %}

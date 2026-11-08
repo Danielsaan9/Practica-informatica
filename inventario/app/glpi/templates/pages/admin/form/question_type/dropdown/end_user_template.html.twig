@@ -1,0 +1,16 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{{ fields.dropdownArrayField(
+    question.getEndUserInputName(),
+    not is_multiple ? checked_values|first : '',
+    values,
+    '',
+    {
+        'no_label'           : true,
+        'values'             : checked_values,
+        'multiple'           : is_multiple,
+        'mb'                 : '',
+        'aria_label'         : label,
+        'display_emptychoice': checked_values|length == 0,
+    }
+) }}

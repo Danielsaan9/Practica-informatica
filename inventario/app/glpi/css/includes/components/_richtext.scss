@@ -1,0 +1,87 @@
+:root:not([glpi-theme-dark="1"]) {
+    body.mce-content-body {
+        background: transparent;
+    }
+}
+
+body.mce-content-body {
+    margin: 15px 10px;
+
+    [data-form-tag="true"],
+    [data-user-mention="true"] {
+        cursor: default !important; // Overrides "not-allowed" cursor on noneditable content
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.tox-statusbar {
+    border-top: transparent !important;
+    justify-content: flex-end;
+}
+
+.tox.tox-tinymce:not(.content-editable-tinymce .tox.tox-tinymce) {
+    border: var(--tblr-border-width) solid var(--tblr-border-color) !important;
+    border-radius: var(--tblr-border-radius);
+    box-shadow: var(--tblr-box-shadow-input) !important;
+}
+
+.rich_text_container {
+    white-space: initial;
+    max-width: 100%;
+
+    thead,
+    tbody,
+    tfoot,
+    tr,
+    td,
+    th {
+        border-width: inherit; // Prevent removal of borders from reboot CSS
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    table {
+        overflow: auto;
+        max-width: 100%;
+        word-break: normal;
+    }
+
+    a[target="_blank"]::before {
+        font-family: tabler-icons, sans-serif;
+        content: "\ea99";
+        padding-right: 4px;
+    }
+
+    .long_text {
+        max-height: 350px;
+        position: relative;
+        overflow: hidden;
+
+        .read_more {
+            background: linear-gradient(to bottom, rgb(255, 255, 255, 0%) 0%, var(--glpi-timeline-itil-content-bg) 100%);
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.user-mention,
+[data-user-mention="true"] {
+    background: rgb(0, 0, 0, 20%);
+    border-radius: 3px;
+    padding: 5px;
+}
+
+[data-form-tag="true"] {
+    background: rgb(0, 0, 0, 20%);
+    border-radius: 3px;
+    padding: 5px;
+    line-height: 32px;
+}

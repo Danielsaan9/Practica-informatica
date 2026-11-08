@@ -1,0 +1,41 @@
+{# @var form       Glpi\Form\Form #}
+{# @var can_update bool #}
+
+{% if can_update %}
+    <div
+        class="btn-group-vertical h-full"
+        style="box-shadow:none;"
+        role="group"
+        data-glpi-form-editor-horizontal-block-toolbar
+    >
+        {# Add slot action #}
+        <button
+            type="button"
+            class="btn btn-icon btn-ghost-secondary flex-grow-0"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="{{ __("Add a slot") }}"
+            data-glpi-form-editor-on-click="add-horizontal-layout-slot"
+            type="button"
+        >
+            <span class="px-2 d-flex align-items-center">
+                <i class="ti ti-square-plus" aria-hidden="true"></i>
+            </span>
+        </button>
+
+        {# Remove horizontal layout action #}
+        <button
+            type="button"
+            class="btn btn-icon btn-ghost-danger flex-grow-0"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="{{ __("Remove horizontal layout") }}"
+            data-glpi-form-editor-on-click="delete-horizontal-layout"
+            type="button"
+        >
+            <span class="px-2 d-flex align-items-center">
+                <i class="ti ti-trash" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+{% endif %}

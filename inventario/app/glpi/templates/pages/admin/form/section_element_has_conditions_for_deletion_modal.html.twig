@@ -1,0 +1,11 @@
+{% set modal_aria_label = __("Child items have conditions and cannot be deleted") %}
+{% set modal_name = "section_child_elements_deletion" %}
+
+{% embed "pages/admin/form/item_has_conditions_modal_base.html.twig" %}
+    {% block modal_headers %}
+        <div class="d-none" data-glpi-form-editor-item-has-conditions-modal-header="section">
+            <h3 class="mb-2">{{ __("This section has child elements that are used in conditions of other form elements") }}</h3>
+            <p class="m-0 text-muted">{{ __("You must delete related conditions before deleting this section.") }}</p>
+        </div>
+    {% endblock %}
+{% endembed %}

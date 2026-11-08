@@ -1,0 +1,12 @@
+#maintenance-float {
+    top: 0;
+    left: 250px;
+    position: absolute;
+    z-index: 9999;
+
+    a {
+        font-weight: bold;
+        background-color: var(--tblr-body-bg);
+        color: var(--tblr-danger);
+    }
+}

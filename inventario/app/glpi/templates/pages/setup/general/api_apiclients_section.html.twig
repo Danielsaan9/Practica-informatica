@@ -1,0 +1,7 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{{ fields.largeTitle(__('API clients (Legacy API)'), 'APIClient'|itemtype_icon) }}
+{% do call('Html::displayTitle', ['', '', '', {
+   'apiclient.form.php': __('Add API client')
+}]) %}
+{% do call('Search::show', ['APIClient']) %}

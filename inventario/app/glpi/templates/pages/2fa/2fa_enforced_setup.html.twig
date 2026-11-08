@@ -1,0 +1,8 @@
+{% extends 'layout/page_card_notlogged.html.twig' %}
+{% import 'pages/2fa/macros.html.twig' as tfa %}
+
+{% set in_grace_period = enforcement == constant('Glpi\\Security\\TOTPManager::ENFORCEMENT_MANDATORY_GRACE_PERIOD') %}
+
+{% block content_block %}
+   {{ tfa.tfa_setup(user_id, secret, qrcode, true, in_grace_period, grace_period_days_left) }}
+{% endblock %}

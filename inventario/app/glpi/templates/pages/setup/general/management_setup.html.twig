@@ -1,0 +1,14 @@
+{% extends "pages/setup/general/base_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block config_fields %}
+   {{ fields.largeTitle(__('Documents setup'), 'ti ti-files') }}
+    <div>
+        <div class="alert alert-info mx-2">
+            {{ __('The maximum upload size is primarily determined by the "upload_max_filesize" and "post_max_size" PHP settings. The setting below is to further restrict the uploads for just GLPI.') }}
+        </div>
+    <div>
+   {{ fields.numberField('document_max_size', config['document_max_size'], __('Document files maximum size (Mio)'), {
+      min: 1
+   }) }}
+{% endblock %}

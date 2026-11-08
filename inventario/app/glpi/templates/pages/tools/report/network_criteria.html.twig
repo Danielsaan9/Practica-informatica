@@ -1,0 +1,50 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% if not embeded %}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">{{ __('Network report') }}</div>
+        </div>
+        <div class="card-body">
+{% endif %}
+{% set btn %}
+    {% set btn_el %}
+        <button type="submit" class="btn btn-primary">{{ __('Display report') }}</button>
+    {% endset %}
+    {{ fields.htmlField('', btn_el, null, {
+        no_label: true,
+        mb: '',
+        add_field_class: 'ms-3',
+        wrapper_class: 'd-block py-1'
+    }) }}
+{% endset %}
+<form method="get" action="report.networking.php" class="mt-n3">
+    <div class="d-flex row">
+        {{ fields.dropdownField('Location', 'locations_id', _get['locations_id']|default(0), __('By location'), {
+            entity: session('glpiactive_entity'),
+            mb: '',
+        }) }}
+        {{ btn }}
+    </div>
+</form>
+<form method="get" action="report.networking.php">
+    <div class="d-flex row">
+        {{ fields.dropdownField('NetworkEquipment', 'switch', _get['switch']|default(0), __('By hardware'), {
+            entity: session('glpiactive_entity'),
+            mb: '',
+        }) }}
+        {{ btn }}
+    </div>
+</form>
+<form method="get" action="report.networking.php">
+    <div class="d-flex row">
+        {{ fields.dropdownField('Glpi\\Socket', 'prise', _get['prise']|default(0), __('By network socket'), {
+            entity: session('glpiactive_entity'),
+            mb: '',
+        }) }}
+        {{ btn }}
+    </div>
+</form>
+{% if not embeded %}
+        </div>
+    </div>
+{% endif %}

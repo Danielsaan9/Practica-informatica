@@ -1,0 +1,30 @@
+<div id="edit_edge_dialog"  class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            {# Header #}
+            <div class="modal-header">
+                <h5 class="modal-title"> {{ __('Edit edge') }} </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+            </div>
+
+            {# Body #}
+            <div class="modal-body">
+                <form>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="edge_name">
+                            {{ __('Name') }}
+                        </label>
+                        <input type="text" class="form-control" name="edge_name" />
+                    </div>
+                </form>
+            </div>
+
+            {# Actions #}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="edit_edge_save"> {{ __('Save') }} </button>
+            </div>
+
+        </div>
+    </div>
+</div>

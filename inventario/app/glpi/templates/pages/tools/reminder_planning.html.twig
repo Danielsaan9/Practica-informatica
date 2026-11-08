@@ -1,0 +1,39 @@
+<img src="{{ planning_img }}" alt="{{ 'Reminder'|itemtype_name(1) }}">
+<a id="reminder_{{ val['reminders_id'] ~ rand }}" href="{{ 'Reminder'|itemtype_form_path(val['reminders_id']) }}">
+    {% if val['users_id'] != session('glpiID') %}
+        <br>
+        {{ __('%1$s: %2$s')|format(__('By'), user_name) }}
+    {% endif %}
+</a>
+
+{% set recall %}
+    {% if planning_recall is not empty %}
+        <br>
+        <span class="fw-bold">{{ __('Recall on %s')|format(planning_recall|formatted_datetime) }}</span>
+    {% endif %}
+{% endset %}
+
+{% set text = val['transtext']|default(val['text']) %}
+
+{% if complete %}
+    <span>{% do call('Planning::getState', [val['state']]) %}</span>
+    <div class="event-description rich_text_container">
+        {{ text|raw }}
+        {{ recall|raw }}
+    </div>
+{% else %}
+    {% set tooltip_content %}
+        <span class="fw-bold">{% do call('Planning::getState', [val['state']]) %}</span>
+        <br>
+        {{ text|raw }}
+        {{ recall|raw }}
+    {% endset %}
+    {% do call('Html::showToolTip', [tooltip_content, {
+        'applyto' : 'reminder_' ~ val['reminders_id'] ~ rand,
+    }]) %}
+{% endif %}
+
+{{ parent_link|raw }}
+<br>
+<span>{{ parent_entity_badge|raw }}</span>
+<br>

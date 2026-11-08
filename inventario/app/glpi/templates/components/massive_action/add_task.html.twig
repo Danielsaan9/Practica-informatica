@@ -1,0 +1,9 @@
+<div class="container-xl">
+    {% include('components/itilobject/timeline/form_task_main_form.html.twig') with {
+        'no_form': true,
+        'disable_pending_reasons': true,
+        'subitem': subitem,
+        'item': item,
+        'mention_options': mention_options,
+    } %}
+</div>

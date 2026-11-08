@@ -1,0 +1,17 @@
+{% extends "pages/tools/kb/sidepanel/base.html.twig" %}
+
+{% block icon %}ti ti-history{% endblock %}
+{% block title %}{{ __("History") }}{% endblock %}
+
+{% block content %}
+    <ul class="steps steps-vertical overflow-auto my-n3 py-3 list-group list-group-flush list-group-hoverable" data-glpi-revisions data-testid="history-list">
+        {{ include('pages/tools/kb/sidepanel/revisions_page.html.twig', {
+            id: id,
+            history: history,
+            can_revert: can_revert,
+            users: users,
+            first_page: first_page,
+            next_offset: next_offset,
+        }, with_context = false) }}
+    </ul>
+{% endblock %}

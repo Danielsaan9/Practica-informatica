@@ -1,0 +1,25 @@
+<span
+    class="kb-item-badge badge d-flex align-items-center gap-2"
+    data-glpi-document-assoc-id="{{ doc.assoc_id }}"
+    data-glpi-document-id="{{ doc.id }}"
+    data-testid="document-chip"
+>
+    <a
+        href="{{ doc.download_url }}"
+        class="d-flex align-items-center gap-2 text-decoration-none"
+        target="_blank"
+    >
+        <i class="ti {{ doc.icon_class }} {{ doc.color_class }}" aria-hidden="true"></i>
+        <span>{{ doc.filename }}</span>
+    </a>
+
+    {% if can_edit %}
+        <button
+            type="button"
+            class="kb-unlink-item btn-close"
+            data-glpi-kb-unlink-document="{{ doc.assoc_id }}"
+            title="{{ __('Unlink document') }}"
+            aria-label="{{ __('Unlink document') }}"
+        ></button>
+    {% endif %}
+</span>

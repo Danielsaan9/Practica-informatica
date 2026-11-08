@@ -1,0 +1,21 @@
+{% extends "generic_show_form.html.twig" %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+    <h3 class="text-center mb-3"><i class="ti ti-user me-1" aria-hidden="true"></i>{{ __('Binding to the LDAP directory') }}</h3>
+
+    {% for field, label in fields %}
+        {{ fields.textField(
+            field,
+            item.fields[field],
+            label
+        ) }}
+    {% endfor %}
+
+    <span class="text-center text-info-emphasis">
+        {{ __('You can use a field name or an expression using various %{fieldname}') }}
+        <br>
+        {{ __('Example for location: %{city} > %{roomnumber}') }}
+    </span>
+
+{% endblock %}

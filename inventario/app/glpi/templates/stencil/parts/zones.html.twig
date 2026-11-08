@@ -1,0 +1,27 @@
+{% for zone_number, zone in zones %}
+    {% if (zone['side'] ?? front) == current_side %}
+        {% if stencil.getZonePopover(params.is_editor_view, zone) != null %}
+            {% set popover_attrs %}
+                data-bs-toggle="popover" data-bs-html="true"
+                data-bs-content="{{ stencil.getZonePopover(params.is_editor_view, zone) }}"
+            {% endset %}
+        {% else %}
+            {% set tooltip_attrs %}
+                data-bs-toggle="tooltip"
+                data-bs-title="{{ zone['label'] }}"
+            {% endset %}
+        {% endif %}
+
+        <a href="#{{ params.anchor_id ?? 'zone_id_' }}{{ zone['number'] ?? zone_number }}"
+           class="defined-zone set-zone-data d-inline-flex align-items-center justify-content-center"
+           data-zone-index="{{ zone_number }}"
+           {{ popover_attrs ?? tooltip_attrs }}
+           style="left: {{ zone['x_percent'] }}%;
+                  top: {{ zone['y_percent'] }}%;
+                  width: {{ zone['width_percent'] }}%;
+                  height: {{ zone['height_percent'] }}%;">
+            {{ stencil.getZoneLabel(params.is_editor_view, zone)|raw }}
+        </a>
+
+    {% endif %}
+{% endfor %}

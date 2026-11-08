@@ -1,0 +1,33 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+{% set target = 'NotificationTarget'|itemtype_form_path %}
+
+<form name="asset_form" method="post" action="{{ target }}" enctype="multipart/form-data" data-submit-once>
+   <div class="card-body d-flex flex-wrap">
+      <div class="col-12 col-xxl-12 flex-column">
+         <div class="d-flex flex-row flex-wrap flex-xl-nowrap">
+            <div class="row flex-row align-items-start flex-grow-1">
+               <div class="row flex-row">
+                  {{ inputs.hidden('notifications_id', notification.fields['id']) }}
+                  {{ inputs.hidden('itemtype', notification.fields['itemtype']) }}
+                  {{ fields.dropdownArrayField('_targets', null, all_targets, _n('Recipient', 'Recipients', get_plural_number()), {
+                     multiple: true,
+                     readonly: not params['canedit'],
+                     values: active_targets
+                  }) }}
+
+                  {{ fields.nullField() }}
+                  {{ fields.dropdownArrayField('_exclusions', null, all_exclusion_targets, _n('Exclusion', 'Exclusions', get_plural_number()), {
+                     multiple: true,
+                     readonly: not params['canedit'],
+                     values: excluded_targets
+                  }) }}
+                  {{ fields.nullField() }}
+                   {{ fields.nullField() }}
+                  {{ fields.htmlField('', inputs.submit('update', _x('button', 'Update'), 1), '') }}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</form>

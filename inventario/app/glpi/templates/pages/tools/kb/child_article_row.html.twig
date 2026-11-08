@@ -1,0 +1,13 @@
+<li class="kb-child-article">
+    <a class="d-flex align-items-center gap-2 text-body text-hover-link text-decoration-none"
+       href="{{ article.link_url }}">
+        <span class="kb-child-article-icon d-inline-flex align-items-center justify-content-center" aria-hidden="true">
+            {% if article.illustration %}
+                {{ render_illustration(article.illustration, 20) }}
+            {% else %}
+                <i class="ti ti-lifebuoy text-secondary" aria-hidden="true"></i>
+            {% endif %}
+        </span>
+        <span class="text-truncate">{{ article.name }}</span>
+    </a>
+</li>

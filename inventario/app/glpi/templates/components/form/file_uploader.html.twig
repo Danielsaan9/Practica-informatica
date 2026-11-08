@@ -1,0 +1,22 @@
+<label class="file-uploader-dropzone pe-none" for="{{ input_id }}"
+       data-glpi-file-uploader-dropzone>
+    <input type="file"
+           id="{{ input_id }}"
+           name="{{ input_name }}"
+           {{ multiple ? 'multiple' : '' }}
+           class="visually-hidden"
+           data-glpi-file-uploader-input>
+    <div class="file-uploader-dropzone-content">
+        <i class="ti ti-cloud-upload file-uploader-dropzone-icon" aria-hidden="true"></i>
+        <p class="file-uploader-dropzone-title">{{ __('Drop files here or click to browse') }}</p>
+        <span class="btn btn-outline-primary btn-sm mt-2" aria-hidden="true">
+            <i class="ti ti-folder-open me-1" aria-hidden="true"></i>{{ __('Browse Files') }}
+        </span>
+    </div>
+</label>
+
+<div class="file-uploader-preview mt-3 d-none"
+     data-glpi-file-uploader-preview>
+    <div class="file-uploader-list" role="list"
+         data-glpi-file-uploader-list></div>
+</div>

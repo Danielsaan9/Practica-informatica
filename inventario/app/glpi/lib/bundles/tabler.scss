@@ -1,0 +1,22 @@
+@use "@fontsource-utils/scss" as fontsource;
+@use "@fontsource/inter/scss" as inter;
+
+$enable-negative-margins: true;
+$link-hover-decoration: none;
+
+@import "@tabler/core/scss/core";
+
+@include fontsource.faces(
+    $metadata: inter.$metadata,
+    $subsets: all,
+    $weights: all,
+    $styles: normal
+);
+
+:root {
+    --tblr-font-sans-serif: inter, -apple-system, blinkmacsystemfont, san francisco, segoe ui, roboto, helvetica neue, sans-serif;
+}
+
+$ti-font-path: "@tabler/icons-webfont/dist/fonts";
+
+@import "@tabler/icons-webfont/dist/tabler-icons";

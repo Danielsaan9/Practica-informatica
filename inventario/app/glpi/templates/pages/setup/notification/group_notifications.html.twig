@@ -1,0 +1,41 @@
+<table class="table table-borderless">
+   {% if notifications|length > 0 %}
+      <thead>
+         <tr>
+            <th>{{ __('Name') }}</th>
+            <th>{{ 'Entity'|itemtype_name(1) }}</th>
+            <th>{{ __('Active') }}</th>
+            <th>{{ _n('Type', 'Types', 1) }}</th>
+            <th>{{ __('Notification method') }}</th>
+            <th>{{ 'NotificationEvent'|itemtype_name(1) }}</th>
+            <th>{{ 'NotificationTemplate'|itemtype_name(1) }}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for notification in notifications %}
+            {% set itemtype = notification.fields['itemtype']|default('') %}
+            <tr>
+               <td>{{ get_item_link(notification) }}</td>
+               <td>{{ get_item_name('Entity', notification.getEntityID()) }}</td>
+               <td>{{ notification.fields['is_active'] ? __('Yes') : __('No') }}</td>
+               <td>
+                  {{ itemtype|itemtype_name }}
+               </td>
+               <td>
+                  {{ call('Notification_NotificationTemplate::getMode', [notification.fields['mode']]) }}
+               </td>
+               <td>
+                  {{ call('NotificationEvent::getEventName', [itemtype, notification.fields['event']]) }}
+               </td>
+               <td>
+                  {{ get_item_name('NotificationTemplate', notification.fields['notificationtemplates_id']) }}
+               </td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   {% else %}
+      <tbody>
+         <tr><td class="b center">{{ __('No results found') }}</td></tr>
+      </tbody>
+   {% endif %}
+</table>

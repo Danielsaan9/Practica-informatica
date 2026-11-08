@@ -1,0 +1,36 @@
+.cropper-container {
+    position: relative;
+
+    cropper-canvas {
+        min-height: 100px;
+    }
+}
+
+.defined-zone {
+    background: #e2ffd19a;
+    border: 1px solid #6c9654;
+    box-sizing: border-box;
+    position: absolute;
+    direction: inherit;
+    font-size: 13px;
+    line-height: 23px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.stencil-view {
+    position: relative;
+
+    .defined-zone {
+        background: #c2c2c24f;
+        border: #8d8d8d;
+
+        .zone-number {
+            color: white;
+            mix-blend-mode: difference;
+            font-size: 15px;
+            font-weight: normal;
+        }
+    }
+}
